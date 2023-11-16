@@ -1,21 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Grid, TextField } from '@mui/material';
+import React, {useState, useEffect} from 'react';
+import {Button, Grid, TextField} from '@mui/material';
+import {useDispatch} from 'react-redux';
+import {updateProduct} from "../../store/Actions.js";
+import {useNavigate} from "react-router-dom";
 
-const UpdateProductForm = ({ productData, updateProduct }) => {
-    const [product, setProduct] = useState({ ...productData });
-
+const UpdateProductForm = ({productData}) => {
+    const dispatch = useDispatch();
+    const [product, setProduct] = useState({...productData});
+    const navigate = useNavigate();
     useEffect(() => {
-        // Update form data if productData changes (for initial values)
-        setProduct({ ...productData });
+        setProduct({...productData});
     }, [productData]);
-
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setProduct({ ...product, [name]: value });
+        const {name, value} = e.target;
+        setProduct({...product, [name]: value});
     };
-
+    const showListProducts = () => {
+        navigate("/");
+    }
     const handleUpdateProduct = () => {
-        updateProduct(product);
+        dispatch(updateProduct(product));
+        showListProducts();
+        setProduct({
+            productNumber: '',
+            name: '',
+            price: '',
+            description: '',
+            numberInStock: '',
+        });
     };
 
     return (

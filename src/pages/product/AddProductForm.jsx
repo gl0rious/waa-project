@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Grid, TextField } from '@mui/material';
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Button, Grid, TextField} from '@mui/material';
 import {addProduct} from "../../store/Actions.js";
+import {useNavigate} from "react-router-dom";
 
 const AddProductForm = () => {
     const dispatch = useDispatch();
-    const products = useSelector(state => state.products); // Get products from the Redux store
-
+    const products = useSelector(state => state.products);
+    const navigate = useNavigate();
     const [product, setProduct] = useState({
         productNumber: '',
         name: '',
@@ -14,14 +15,15 @@ const AddProductForm = () => {
         description: '',
         numberInStock: '',
     });
-
+const showListProducts=()=>{
+    navigate("/");
+}
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setProduct({ ...product, [name]: value });
+        const {name, value} = e.target;
+        setProduct({...product, [name]: value});
     };
 
     const handleAddProduct = () => {
-
         const existingProduct = products.find(
             (prod) => prod.productNumber === product.productNumber
         );
@@ -32,6 +34,7 @@ const AddProductForm = () => {
         }
 
         dispatch(addProduct(product));
+        showListProducts();
         setProduct({
             productNumber: '',
             name: '',
