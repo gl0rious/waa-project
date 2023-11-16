@@ -1,8 +1,8 @@
-import ProductGrid from "./ProductGrid";
 import { Container } from "@mui/material";
-import AddProduct from "./AddProduct";
-import FabButton from "./AddProduct";
+import FabButton from "../FabButton";
 import AddIcon from "@mui/icons-material/Add";
+import GridLayout from "../GridLayout";
+import ProductCard from "./ProductCard";
 
 const productData = [
   { id: 1, title: "Product 1", description: "Description for Product 1" },
@@ -24,10 +24,11 @@ const handleFabClick = () => {
 };
 
 const ProductPage = () => {
+  console.log(productData);
   return (
     <Container maxWidth="lg">
       <h1>Products</h1>
-      <ProductGrid products={productData} />
+      <GridLayout ItemComponent={ProductCard} items={productData} />
       <FabButton label="Add Product" Icon={AddIcon} onClick={handleFabClick} />
     </Container>
   );

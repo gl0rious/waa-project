@@ -4,10 +4,10 @@ import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
-import AddBox from "@mui/icons-material/AddBox";
+import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
 
-const ProductCard = ({ title, description }) => {
+const ProductCard = ({ title, quantity, description }) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -22,15 +22,18 @@ const ProductCard = ({ title, description }) => {
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
+        <Typography variant="h6" color="text.secondary">
+          {quantity}
+        </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
         <Button
           variant="contained"
-          color="success"
+          color="error"
           size="small"
-          startIcon={<AddBox fontSize="small" />}
+          startIcon={<DeleteIcon fontSize="small" />}
         >
-          Add to cart
+          Remove
         </Button>
         <Button
           size="small"
