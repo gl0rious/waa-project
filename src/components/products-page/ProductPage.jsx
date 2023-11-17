@@ -20,14 +20,9 @@ const productData = [
     {id: 1, title: "Product 1", description: "Description for Product 1"},
     {id: 2, title: "Product 2", description: "Description for Product 2"},
 ];
-const handleFabClick = () => {
-    alert("FAB button clicked!");
-};
 
 const ProductPage = () => {
-    console.log(productData);
     const products = useSelector((state) => state.products);
-    console.log(products)
     return (
         <Container maxWidth="lg">
             <h1>Products</h1>

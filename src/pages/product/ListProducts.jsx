@@ -1,8 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Grid, Typography, Card, CardContent, CardActions } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { removeProduct } from '../../store/Actions.js';
+import {useDispatch, useSelector} from 'react-redux';
+import {Button, Grid, Typography, Card, CardContent, CardActions} from '@mui/material';
+import {useNavigate} from 'react-router-dom';
+import {removeProduct} from '../../store/Actions.js';
 
 const ListProducts = () => {
     const products = useSelector((state) => state.products);

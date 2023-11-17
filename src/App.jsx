@@ -5,6 +5,7 @@ import ShoppingCartPage from "./components/shopping-cart/ShoppingCartPage";
 import AddProductForm from "./pages/product/AddProductForm.jsx";
 import UpdateProductForm from "./pages/product/UpdateProductForm.jsx";
 import Checkout from "./pages/checkout-page/Checkout.jsx";
+import OrderTable from "./pages/OrderTable.jsx";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/addproduct" element={<AddProductForm/>}/>
                     <Route path="/updateproduct" element={<UpdateProductForm/>}/>
                     <Route path="/checkout" element={<Checkout/>}/>
+                    <Route path="/orders" element={<OrderTable/>}/>
                 </Routes>
             </BrowserRouter>
         </>
