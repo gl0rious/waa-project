@@ -16,7 +16,7 @@ const UpdateProductForm = ({productData}) => {
         setProduct({...product, [name]: value});
     };
     const showListProducts = () => {
-        navigate("/");
+        navigate("/products");
     }
     const handleUpdateProduct = () => {
         dispatch(updateProduct(product));

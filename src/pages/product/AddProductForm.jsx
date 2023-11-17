@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Grid, TextField} from '@mui/material';
+import {Button, Container, Grid, TextField} from '@mui/material';
 import {addProduct} from "../../store/Actions.js";
 import {useNavigate} from "react-router-dom";
 
@@ -15,9 +15,9 @@ const AddProductForm = () => {
         description: '',
         numberInStock: '',
     });
-const showListProducts=()=>{
-    navigate("/");
-}
+    const showListProducts = () => {
+        navigate("/products");
+    }
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         setProduct({...product, [name]: value});
@@ -41,10 +41,22 @@ const showListProducts=()=>{
             price: '',
             description: '',
             numberInStock: '',
+            image: null,
+            imageUrl: '',
         });
     };
+    const handleImageChange = (e) => {
+        const imageFile = e.target.files[0];
+        setProduct({...product, image: imageFile});
+
+        if (imageFile) {
+            const imageUrl = URL.createObjectURL(imageFile);
+            setProduct({...product, imageUrl});
+        }
+    };
+
     return (
-        <Grid container spacing={3}>
+        <Container maxWidth="sm" style={{textAlign: "center", marginTop: "50px"}}>
             <Grid item xs={12}>
                 <TextField
                     name="productNumber"
@@ -93,11 +105,30 @@ const showListProducts=()=>{
                 />
             </Grid>
             <Grid item xs={12}>
+                <input
+                    accept="image/*"
+                    id="contained-button-file"
+                    type="file"
+                    style={{display: 'none'}}
+                    onChange={handleImageChange}
+                />
+                <label htmlFor="contained-button-file">
+                    <Button variant="contained" component="span">
+                        Upload Image
+                    </Button>
+                </label>
+                {product.imageUrl && (
+                    <div>
+                        <img src={product.imageUrl} alt="Uploaded" style={{width: '200px', height: 'auto'}}/>
+                    </div>
+                )}
+            </Grid>
+            <Grid item xs={12}>
                 <Button variant="contained" onClick={handleAddProduct}>
                     Add Product
                 </Button>
             </Grid>
-        </Grid>
+        </Container>
     );
 };
 
