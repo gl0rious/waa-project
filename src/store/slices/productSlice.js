@@ -1,77 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "nanoid";
+import { faker } from "@faker-js/faker";
 
-const initialProductList = [
-  {
+const initialProductList = Array.from(Array(10)).map(() => {
+  return {
     id: nanoid(),
-    title: "Product 1",
-    description: "Description for Product 1",
-    imageUrl: "/images/contemplative-reptile.jpg",
-  },
-  {
-    id: nanoid(),
-    title: "Product 2",
-    description: "Description for Product 2",
-    imageUrl: "/images/contemplative-reptile.jpg",
-  },
-  {
-    id: nanoid(),
-    title: "Product 1",
-    description: "Description for Product 1",
-    imageUrl: "/images/contemplative-reptile.jpg",
-  },
-  {
-    id: nanoid(),
-    title: "Product 2",
-    description: "Description for Product 2",
-    imageUrl: "/images/contemplative-reptile.jpg",
-  },
-  {
-    id: nanoid(),
-    title: "Product 1",
-    description: "Description for Product 1",
-    imageUrl: "/images/contemplative-reptile.jpg",
-  },
-  {
-    id: nanoid(),
-    title: "Product 2",
-    description: "Description for Product 2",
-    imageUrl: "/images/contemplative-reptile.jpg",
-  },
-  {
-    id: nanoid(),
-    title: "Product 1",
-    description: "Description for Product 1",
-    imageUrl: "/images/contemplative-reptile.jpg",
-  },
-  {
-    id: nanoid(),
-    title: "Product 2",
-    description: "Description for Product 2",
-    imageUrl: "/images/contemplative-reptile.jpg",
-  },
-];
+    title: faker.commerce.product(),
+    description: faker.commerce.productDescription(),
+    imageUrl: faker.image.url(),
+  };
+});
 
 export const productSlice = createSlice({
   name: "product",
   initialState: initialProductList,
   reducers: {
-    addProduct: (state, action) => {
-      state.products = [...state.products, action.payload];
-    },
+    addProduct: (state, action) => [...state, action.payload],
     updateProduct: (state, action) => {
-      state.products = [
-        ...state.products.filter(
+      state = [
+        ...state.filter(
           (product) => product.productNumber !== action.payload.productNumber
         ),
         action.payload,
       ];
     },
-    removeProduct: (state, action) => {
-      state.products = state.products.filter(
-        (product) => product.id !== action.payload
-      );
-    },
+    removeProduct: (state, action) =>
+      state.filter((product) => product.id !== action.payload),
   },
 });
 

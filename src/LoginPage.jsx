@@ -1,17 +1,21 @@
 import { Grid, Button } from "@mui/material";
 import { setUserInfo } from "./store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const loginAsEmployee = (e) => {
     e.preventDefault();
-    setUserInfo({ username: "employee", role: "employee" });
+    dispatch(setUserInfo({ username: "employee", role: "employee" }));
+    console.log("set user employee");
     navigate("/products");
   };
   const loginAsUser = (e) => {
     e.preventDefault();
-    setUserInfo({ username: "user", role: "user" });
+    dispatch(setUserInfo({ username: "user", role: "user" }));
+    console.log("set user user");
     navigate("/products");
   };
   return (

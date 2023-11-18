@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ProductPage from "./components/products-page/ProductList.jsx";
+import ProductList from "./components/products-page/ProductList.jsx";
 import ShoppingCartPage from "./components/shopping-cart/ShoppingCartPage";
 import AddProductForm from "./pages/product/AddProductForm.jsx";
 import ProductDetail from "./components/products-page/ProductDetail.jsx";
@@ -15,13 +15,16 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/products" element={<ProductPage />} />
-          <Route path="/shoppingcart" element={<ShoppingCartPage />} />
-          <Route path="/addproduct" element={<AddProductForm />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/products/add" element={<AddProductForm />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
+          <Route
+            path="/products/:productId/edit"
+            element={<UpdateProductForm />}
+          />
+          <Route path="/shoppingcart" element={<ShoppingCartPage />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orders" element={<OrderTable />} />
-          <Route path="/updateproduct" element={<UpdateProductForm />} />
         </Routes>
       </BrowserRouter>
     </>
