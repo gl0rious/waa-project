@@ -10,31 +10,15 @@ import AddBox from "@mui/icons-material/AddBox";
 import InfoIcon from "@mui/icons-material/Info";
 import {Link} from "react-router-dom"
 import {Edit} from "@mui/icons-material";
-import {Container} from "@mui/material";
+import {Container, Grid} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 
-const ProductCard = ({description,price,imageUrl,name}) => {
-
-
+const ProductCard = ({id, name, description, price, imageUrl}) => {
+    const [asAdmin, setAsAdmin] = useState(false);
     return (
         <Card sx={{maxWidth: 345}}>
-            <Container  style={{
-                display: "flex",
-                justifyContent: "space-between",
-            }}>
-                <Button>
-                    <Link to="/updateproduct"><Edit/></Link>
-                </Button>
-                <Button style={{color: "red",marginRight:"5px"}}>
-                    <DeleteIcon/>
-                </Button>
-            </Container>
-            <CardMedia
-                sx={{height: 140}}
-                image={imageUrl}
-                title={name}
-            />
+            <CardMedia sx={{height: 140}} image={imageUrl} title={name}/>
             <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
                     {name}
@@ -43,26 +27,48 @@ const ProductCard = ({description,price,imageUrl,name}) => {
                     {description}
                 </Typography>
                 <Typography gutterBottom variant="h6" component="div">
-                    ${price}
+                    {price}$
                 </Typography>
             </CardContent>
             <CardActions sx={{justifyContent: "space-between"}}>
-                <Button
-                    variant="contained"
-                    color="success"
-                    size="small"
-                    startIcon={<AddBox fontSize="small"/>}
-                >
-                    Add to cart
-                </Button>
-                <Button
-                    size="small"
-                    color="primary"
-                    variant="outlined"
-                    endIcon={<InfoIcon fontSize="small"/>}
-                >
-                    Details
-                </Button>
+
+                {asAdmin == true ? (
+                    <Grid>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            size="small"
+                            startIcon={<AddBox fontSize="small"/>}
+                        >
+                            Add to cart
+                        </Button>
+                        <Link to={`/products/${id}`}>
+                            <Button
+                                component={Button}
+                                size="small"
+                                color="primary"
+                                variant="outlined"
+                                endIcon={<InfoIcon fontSize="small"/>}
+                            >
+                                Details
+                            </Button>
+                        </Link>
+                    </Grid>
+
+                ) : <Container maxWidth="sm" style={{
+                    display: "flex",
+                    justifyContent: "space-between"
+                }}>
+                    <Link to="/updateproduct">
+                        <Button color="primary">
+                            <Edit/>
+                        </Button>
+                    </Link>
+                    <Button color="error">
+                        <DeleteIcon/>
+                    </Button>
+                </Container>}
+
             </CardActions>
         </Card>
     );

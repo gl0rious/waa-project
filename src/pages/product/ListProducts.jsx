@@ -1,8 +1,9 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Grid, Typography, Card, CardContent, CardActions} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import {removeProduct} from '../../store/Actions.js';
+import {removeProduct} from "../../store/slices/productSlice.js";
 
 const ListProducts = () => {
     const products = useSelector((state) => state.products);
