@@ -5,12 +5,14 @@ import ShoppingCartPage from "./components/shopping-cart/ShoppingCartPage";
 import AddProductForm from "./pages/product/AddProductForm.jsx";
 import ProductDetail from "./components/products-page/ProductDetail.jsx";
 import Checkout from "./pages/checkout-page/Checkout.jsx";
+import LoginPage from "./LoginPage.jsx";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<LoginPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/shoppingcart" element={<ShoppingCartPage />} />
