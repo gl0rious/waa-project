@@ -32,7 +32,7 @@ const ProductCard = ({id, name, description, price, imageUrl}) => {
             </CardContent>
             <CardActions sx={{justifyContent: "space-between"}}>
 
-                {asAdmin == true ? (
+                {asAdmin == false ? (
                     <Grid>
                         <Button
                             variant="contained"

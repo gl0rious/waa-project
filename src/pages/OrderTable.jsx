@@ -1,5 +1,17 @@
 import React, {useState} from 'react';
-import {Collapse, IconButton, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
+import {
+    Button,
+    Collapse,
+    Grid,
+    IconButton,
+    MenuItem,
+    Select,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow
+} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -150,22 +162,31 @@ const OrderTable = () => {
                                                 </TableRow>
                                             ))}
                                             <TableRow>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell>
-                                                    <Select defaultValue="PLACED">
-                                                        <MenuItem value="PLACED">PLACED</MenuItem>
-                                                        <MenuItem value="SHIPPED">SHIPPED</MenuItem>
-                                                        <MenuItem value="DELIVERED">DELIVERED</MenuItem>
-                                                    </Select>
-                                                </TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                                <TableCell></TableCell>
-                                            </TableRow> </TableBody>
+                                                <TableCell/>
+                                                <TableCell/> <TableCell/>  <TableCell/>
+                                                    <Grid container alignItems="center" justifyContent="center">
+                                                        <Grid item xs={6} md={4} textAlign="center">
+                                                            <Button variant="contained" color="secondary">
+                                                                Cancel
+                                                            </Button>
+                                                        </Grid>
+                                                        <Grid item xs={12} md={4} textAlign="center">
+                                                            <Select defaultValue="PLACED">
+                                                                <MenuItem value="PLACED">PLACED</MenuItem>
+                                                                <MenuItem value="SHIPPED">SHIPPED</MenuItem>
+                                                                <MenuItem value="DELIVERED">DELIVERED</MenuItem>
+                                                            </Select>
+                                                        </Grid>
+                                                        <Grid item xs={6} md={4} textAlign="center">
+                                                            <Button variant="contained" color="primary">
+                                                                Confirm
+                                                            </Button>
+                                                        </Grid>
+                                                    </Grid>
+                                                <TableCell/>
+                                                <TableCell/> <TableCell/>  <TableCell/>
+                                            </TableRow>
+                                        </TableBody>
                                     </Table>
                                 </Collapse>
                             </TableCell>
