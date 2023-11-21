@@ -19,24 +19,25 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/orders")
+    @GetMapping
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    @GetMapping("/orders/{orderId}")
+    @GetMapping("/{orderId}")
     public ResponseEntity<Order> getOrderById(@PathVariable String orderId) {
         Order order = orderService.getOrderById(orderId);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    @PostMapping("/orders")
+    @PostMapping
     public ResponseEntity<Order> placeOrder(@RequestBody Order order) {
+
         Order placedOrder = orderService.save(order);
         return new ResponseEntity<>(placedOrder, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/orders/{orderId}")
+    @PatchMapping("/{orderId}")
     public ResponseEntity<Void> updateOrderStatus(@PathVariable String orderId, @RequestBody OrderStatus status) {
         orderService.updateOrderStatus(orderId, status);
         return new ResponseEntity<>(HttpStatus.OK);
