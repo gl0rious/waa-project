@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { Grid, TextField, Button, Container } from "@mui/material";
 
-const PersonalInfoStep = ({ onSubmit }) => {
+const PersonalInfoStep = ({ onSubmit, onPersonalInfoChange }) => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -12,13 +12,48 @@ const PersonalInfoStep = ({ onSubmit }) => {
         zip: "",
     });
 
+    const [formErrors, setFormErrors] = useState({
+        email: "",
+        phone: "",
+        zip: "",
+    });
+
+    useEffect(() => {
+        onPersonalInfoChange(formData);
+    }, [formData, onPersonalInfoChange]);
+
     const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        let errors = { ...formErrors };
+
+        switch (name) {
+            case "email":
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                errors.email = emailRegex.test(value) ? "" : "Invalid email address";
+                break;
+            case "phone":
+                const phoneRegex = /^\d{10}$/;
+                errors.phone = phoneRegex.test(value) ? "" : "Invalid phone number";
+                break;
+            case "zip":
+                const zipRegex = /^\d{5}$/;
+                errors.zip = zipRegex.test(value) ? "" : "ZIP code must be 5 digits";
+                break;
+            default:
+                break;
+        }
+
+        setFormErrors(errors);
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(formData);
+        if (Object.values(formErrors).every((error) => error === "")) {
+            onSubmit(formData);
+        } else {
+            console.log("Form has errors, please check input fields.");
+        }
     };
 
     return (
@@ -33,6 +68,7 @@ const PersonalInfoStep = ({ onSubmit }) => {
                             value={formData.name}
                             onChange={handleInputChange}
                             fullWidth
+                            required
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -42,6 +78,9 @@ const PersonalInfoStep = ({ onSubmit }) => {
                             value={formData.email}
                             onChange={handleInputChange}
                             fullWidth
+                            error={!!formErrors.email}
+                            helperText={formErrors.email}
+                            required
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -51,15 +90,9 @@ const PersonalInfoStep = ({ onSubmit }) => {
                             value={formData.phone}
                             onChange={handleInputChange}
                             fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Street"
-                            name="street"
-                            value={formData.street}
-                            onChange={handleInputChange}
-                            fullWidth
+                            error={!!formErrors.phone}
+                            helperText={formErrors.phone}
+                            required
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -69,6 +102,17 @@ const PersonalInfoStep = ({ onSubmit }) => {
                             value={formData.city}
                             onChange={handleInputChange}
                             fullWidth
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            label="Street"
+                            name="street"
+                            value={formData.street}
+                            onChange={handleInputChange}
+                            fullWidth
+                            required
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -78,6 +122,9 @@ const PersonalInfoStep = ({ onSubmit }) => {
                             value={formData.zip}
                             onChange={handleInputChange}
                             fullWidth
+                            error={!!formErrors.zip}
+                            helperText={formErrors.zip}
+                            required
                         />
                     </Grid>
                 </Grid>

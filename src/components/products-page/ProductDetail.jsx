@@ -68,16 +68,7 @@ const ProductDetail = () => {
         setUserRating(0);
         setComment('');
     };
-    const cardStyle = {
-        minWidth: 275,
-        marginBottom: '20px',
-        position: 'sticky',
-        top: '20px',
-    };
-    const textStyle = {
-        fontSize: 14,
-        marginBottom: 12,
-    };
+
     return (
         <Container maxWidth="md">
 
@@ -138,7 +129,7 @@ const ProductDetail = () => {
                 </Grid>
 
                 <Grid item xs={6}>
-                    <Card >
+                    <Card>
                         <CardMedia
                             component="img"
                             image={product.imageUrl}
@@ -163,7 +154,7 @@ const ProductDetail = () => {
                             />
                         </Typography>
                         <Typography variant="body2">
-                           {review.comment}
+                            {review.comment}
                         </Typography>
                     </CardContent>
                 </Card>

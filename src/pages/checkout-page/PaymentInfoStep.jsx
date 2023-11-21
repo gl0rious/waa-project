@@ -1,22 +1,57 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
-import { Grid, TextField, Button, Container } from "@mui/material";
+import {Grid, TextField, Button, Container} from "@mui/material";
 
-const PaymentInfoStep = ({ onSubmit }) => {
+const PaymentInfoStep = ({onSubmit, onPaymentInfoChange}) => {
     const [formData, setFormData] = useState({
         cardNumber: "",
         expirationDate: "",
         validationCode: "",
     });
 
+    const [formErrors, setFormErrors] = useState({
+        cardNumber: "",
+        expirationDate: "",
+        validationCode: "",
+    });
+
     const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const {name, value} = e.target;
+        let errors = {...formErrors};
+
+        switch (name) {
+            case "cardNumber":
+                const cardNumberRegex = /^\d{16}$/;
+                errors.cardNumber = cardNumberRegex.test(value) ? "" : "Card number must be 16 digits";
+                break;
+            case "expirationDate":
+                const expirationDateRegex = /^(0[1-9]|1[0-2])\/[0-9]{4}$/;
+                errors.expirationDate = expirationDateRegex.test(value) ? "" : "Invalid expiration date format (MM/YYYY)";
+                break;
+            case "validationCode":
+                const validationCodeRegex = /^\d{3}$/;
+                errors.validationCode = validationCodeRegex.test(value) ? "" : "Validation code must be 3 digits";
+                break;
+            default:
+                break;
+        }
+
+        setFormErrors(errors);
+        setFormData({...formData, [name]: value});
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(formData);
+        if (Object.values(formErrors).every((error) => error === "")) {
+            onSubmit(formData);
+        } else {
+            console.log("Form has errors, please check input fields.");
+        }
     };
+
+    useEffect(() => {
+        onPaymentInfoChange(formData);
+    }, [formData, onPaymentInfoChange]);
 
     return (
         <Container maxWidth="sm">
@@ -30,6 +65,9 @@ const PaymentInfoStep = ({ onSubmit }) => {
                             value={formData.cardNumber}
                             onChange={handleInputChange}
                             fullWidth
+                            error={!!formErrors.cardNumber}
+                            helperText={formErrors.cardNumber}
+                            required
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -39,6 +77,9 @@ const PaymentInfoStep = ({ onSubmit }) => {
                             value={formData.expirationDate}
                             onChange={handleInputChange}
                             fullWidth
+                            error={!!formErrors.expirationDate}
+                            helperText={formErrors.expirationDate}
+                            required
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -48,6 +89,9 @@ const PaymentInfoStep = ({ onSubmit }) => {
                             value={formData.validationCode}
                             onChange={handleInputChange}
                             fullWidth
+                            error={!!formErrors.validationCode}
+                            helperText={formErrors.validationCode}
+                            required
                         />
                     </Grid>
                 </Grid>

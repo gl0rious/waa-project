@@ -1,15 +1,20 @@
 // eslint-disable-next-line no-unused-vars
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import PersonalInfoStep from "./PersonalInfoStep.jsx";
 import PaymentInfoStep from "./PaymentInfoStep.jsx";
 import OrderConfirmationStep from "./OrderConfirmationStep.jsx";
-import {Button, Container, Grid} from "@mui/material";
+import {Button, Container} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {addOrder} from "../../store/slices/orderSlice.js";
 
 const Checkout = () => {
     const [step, setStep] = useState(1);
     const [personalInfo, setPersonalInfo] = useState({});
     const [paymentInfo, setPaymentInfo] = useState({});
     const [orderConfirmed, setOrderConfirmed] = useState(false);
+    const [orderData, setOrderData] = useState({});
+    const dispatch = useDispatch();
+    const orders = useSelector(state => state.order);
 
     const nextStep = () => {
         setStep((prevStep) => prevStep + 1);
@@ -20,58 +25,74 @@ const Checkout = () => {
     };
     const handlePersonalInfoSubmit = (data) => {
         setPersonalInfo(data);
+
         nextStep();
     };
     const handlePaymentInfoSubmit = (data) => {
         setPaymentInfo(data);
         nextStep();
     };
-
+    const handlePersonalInfoChange = (data) => {
+        setPersonalInfo(data);
+    };
+    const handlePaymentInfoChange = (data) => {
+        setPaymentInfo(data);
+    };
+    useEffect(() => {
+        setOrderData({
+            personalInfo: personalInfo,
+            creditCart: paymentInfo,
+        });
+    }, [personalInfo, paymentInfo]);
     const confirmOrder = async () => {
         try {
             setOrderConfirmed(true);
+            dispatch(addOrder(orderData))
         } catch (error) {
             console.error("Error confirming order:", error);
         }
+
     };
+    const stepTitles = ["Personal Information", "Payment Information", "Order Confirmation"];
 
     return (
         <div>
-            {/* Step indicators */}
-            <div style={{display: "flex", justifyContent: "center", margin: "20px"}}>
-                <div style={{display: "flex", alignItems: "center"}}>
-                    <div style={{
-                        borderRadius: "50%",
-                        width: "20px",
-                        height: "20px",
-                        background: step >= 1 ? "green" : "gray"
-                    }}></div>
-                    <span style={{color: step >= 1 ? "green" : "gray", marginLeft: "10px"}}>1</span>
-                </div>
-                <div style={{display: "flex", alignItems: "center", margin: "0 10px"}}>
-                    <div style={{
-                        borderRadius: "50%",
-                        width: "20px",
-                        height: "20px",
-                        background: step >= 2 ? "green" : "gray"
-                    }}></div>
-                    <span style={{color: step >= 2 ? "green" : "gray", marginLeft: "10px"}}>2</span>
-                </div>
-                <div style={{display: "flex", alignItems: "center"}}>
-                    <div style={{
-                        borderRadius: "50%",
-                        width: "20px",
-                        height: "20px",
-                        background: step >= 3 ? "green" : "gray"
-                    }}></div>
-                    <span style={{color: step >= 3 ? "green" : "gray", marginLeft: "10px"}}>3</span>
-                </div>
+            <div style={{display: "flex", margin: "20px", justifyContent: "space-evenly"}}>
+                {stepTitles.map((title, index) => (
+                    <div key={index}
+                         style={{display: "flex", flexDirection: "column", alignItems: "center", position: "relative"}}>
+                        {index !== 0 && (
+                            <div
+                                style={{
+                                    position: "absolute",
+                                    top: "10px",
+                                    left: "-100%",
+                                    width: "100%",
+                                    height: "1px",
+                                    backgroundColor: step > index + 1 ? "green" : "gray",
+                                    zIndex: "1",
+                                }}
+                            ></div>
+                        )}
+                        <div
+                            style={{
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                background: step === index + 1 ? "green" : "gray",
+                                marginBottom: "5px",
+                                zIndex: "1",
+                            }}
+                        ></div>
+                        <span style={{color: step === index + 1 ? "green" : "gray"}}>{title}</span>
+                    </div>
+                ))}
             </div>
             {step === 1 && (
-                <PersonalInfoStep onSubmit={handlePersonalInfoSubmit}/>
+                <PersonalInfoStep onSubmit={handlePersonalInfoSubmit} onPersonalInfoChange={handlePersonalInfoChange}/>
             )}
             {step === 2 && (
-                <PaymentInfoStep onSubmit={handlePaymentInfoSubmit}/>
+                <PaymentInfoStep onSubmit={handlePaymentInfoSubmit} onPaymentInfoChange={handlePaymentInfoChange}/>
             )}
             {step === 3 && (
                 <OrderConfirmationStep
