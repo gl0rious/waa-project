@@ -16,13 +16,18 @@ import java.util.List;
 @Getter
 public class Product {
     @Id
-    private String id;
-    private String productNumber;
+    private String number;
     private String name;
     private double price;
     private String description;
     private int numberInStock;
     private List<Review> reviews;
 
-    // constructors, getters, and setters
+    public Product(String number, String name, double price, String description, int numberInStock) {
+        this.number = number;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.numberInStock = numberInStock;
+    }
 }

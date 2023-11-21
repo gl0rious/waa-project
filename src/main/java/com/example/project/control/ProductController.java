@@ -1,7 +1,6 @@
 package com.example.project.control;
-import com.example.project.domain.Order;
+
 import com.example.project.domain.Product;
-import com.example.project.domain.OrderStatus;
 import com.example.project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,62 +10,50 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/products")
+    @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/products/{productId}")
+    @GetMapping("/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable String productId) {
         Product product = productService.getProductById(productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @PostMapping("/products")
+    @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+        if (productService.exists(product.getNumber())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         Product savedProduct = productService.addProduct(product);
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
     }
 
-    @PutMapping("/products/{productId}")
-    public ResponseEntity<Void> updateProduct(@PathVariable String productId, @RequestBody Product product) {
-        productService.updateProduct(productId, product);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/{productId}")
+    public ResponseEntity<Product> updateProduct(@PathVariable String productId, @RequestBody Product product) {
+        if (!productService.exists(productId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (!productId.equals(product.getNumber())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        var updated = productService.updateProduct(productId, product);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
-    @DeleteMapping("/products/{productId}")
+    @DeleteMapping("/{productId}")
     public ResponseEntity<Void> removeProduct(@PathVariable String productId) {
+        if (!productService.exists(productId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         productService.removeProduct(productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-    @GetMapping("/orders")
-    public List<Order> getAllOrders() {
-        return productService.getAllOrders();
-    }
-
-    @GetMapping("/orders/{orderId}")
-    public ResponseEntity<Order> getOrderById(@PathVariable String orderId) {
-        Order order = productService.getOrderById(orderId);
-        return new ResponseEntity<>(order, HttpStatus.OK);
-    }
-
-    @PostMapping("/orders")
-    public ResponseEntity<Order> placeOrder(@RequestBody Order order) {
-        Order placedOrder = productService.placeOrder(order);
-        return new ResponseEntity<>(placedOrder, HttpStatus.CREATED);
-    }
-
-    @PatchMapping("/orders/{orderId}")
-    public ResponseEntity<Void> updateOrderStatus(@PathVariable String orderId, @RequestBody OrderStatus status) {
-        productService.updateOrderStatus(orderId, status);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }
-
