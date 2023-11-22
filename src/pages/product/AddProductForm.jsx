@@ -1,9 +1,8 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Container, Grid, TextField } from "@mui/material";
-import { addProduct } from "../../store/slices/productSlice";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {useDispatch} from "react-redux";
+import {Button, Container, Grid, TextField} from "@mui/material";
+import {addProduct} from "../../store/slices/productSlice";
+import {useNavigate} from "react-router-dom";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
