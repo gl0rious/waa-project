@@ -16,23 +16,45 @@ const AddProductForm = () => {
         description: "",
         numberInStock: "",
     });
+    const [formErrors, setFormErrors] = useState({
+        productNumber: "",
+        name: "",
+        price: "",
+        description: "",
+        numberInStock: "",
+    });
     const handleInputChange = (e) => {
         const {name, value} = e.target;
+        let errors = {...formErrors};
+        switch (name) {
+            case "productNumber":
+                errors.productNumber = value.trim().length > 0 ? "" : "Product number is required";
+                break;
+            case "name":
+                errors.name = value.trim().length > 0 ? "" : "Name is required";
+                break;
+            case "price":
+                errors.price = /^\d+(\.\d{1,2})?$/.test(value) ? "" : "Invalid price format";
+                break;
+            case "description":
+                errors.description = value.trim().length > 0 ? "" : "Description is required";
+                break;
+            case "numberInStock":
+                errors.numberInStock = /^\d+$/.test(value) ? "" : "Invalid number in stock";
+                break;
+            default:
+                break;
+        }
+
+        setFormErrors(errors);
         setProduct({...product, [name]: value});
     };
 
     const handleAddProduct = () => {
-        const existingProduct = products.find(
-            (prod) => prod.productNumber === product.productNumber
-        );
-
-        if (existingProduct) {
-            alert("Product already exists in stock!");
-            return;
+        if (Object.values(formErrors).every((error) => error === "")) {
+            dispatch(addProduct(product))
+            navigate("/products");
         }
-        console.log(product);
-        dispatch(addProduct(product))
-        navigate("/products");
     };
     const handleImageChange = (e) => {
         const imageFile = e.target.files[0];
@@ -52,7 +74,10 @@ const AddProductForm = () => {
                         label="Product Number"
                         value={product.productNumber}
                         onChange={handleInputChange}
+                        helperText={formErrors.productNumber}
                         fullWidth
+                        required
+
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -61,7 +86,10 @@ const AddProductForm = () => {
                         label="Name"
                         value={product.name}
                         onChange={handleInputChange}
+                        helperText={formErrors.name}
                         fullWidth
+                        required
+
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -70,7 +98,10 @@ const AddProductForm = () => {
                         label="Price"
                         value={product.price}
                         onChange={handleInputChange}
+                        helperText={formErrors.price}
                         fullWidth
+                        required
+
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -79,9 +110,12 @@ const AddProductForm = () => {
                         label="Description"
                         value={product.description}
                         onChange={handleInputChange}
+                        helperText={formErrors.description}
                         fullWidth
                         multiline
                         rows={4}
+                        required
+
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -90,7 +124,10 @@ const AddProductForm = () => {
                         label="Number in Stock"
                         value={product.numberInStock}
                         onChange={handleInputChange}
+                        helperText={formErrors.numberInStock}
                         fullWidth
+                        required
+
                     />
                 </Grid>
                 <Grid item xs={12}>

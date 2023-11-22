@@ -15,7 +15,7 @@ function App() {
     const [showSideBar, setShowSideBar] = useState(false);
     return (
         <BrowserRouter>
-            <div className="App">
+            <div>
                 <Sidebar onShow={setShowSideBar}/>
                 <div className="content"
                      style={{marginLeft: !showSideBar ? "80px" : "0"}}
