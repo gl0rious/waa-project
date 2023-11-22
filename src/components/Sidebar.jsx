@@ -58,7 +58,7 @@ function Sidebar({onShow}) {
         onShow(showSidebar)
     };
     return (
-        <div>
+        <div >
             <IconButton onClick={toggleSidebar}>
                 {showSidebar ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
             </IconButton>
@@ -67,10 +67,6 @@ function Sidebar({onShow}) {
                     variant="persistent"
                     anchor="left"
                     open={showSidebar}
-                    className={`${styles.drawer} ${!showSidebar && styles.drawerClose}`}
-                    classes={{
-                        paper: `${styles.drawer} ${showSidebar ? styles.drawerClose : styles.darkGreyBackground}`,
-                    }}
                 >
                     <div style={styles.sidebarHeader}>
                         <IconButton onClick={toggleSidebar}>
@@ -93,7 +89,6 @@ function Sidebar({onShow}) {
                                 <ListItemText primary="Add Product"/>
                             </ListItem>
                         }
-
                         {
                             userInfo.role == "employee" &&
                             <ListItem button component={Link} to="/orders">
