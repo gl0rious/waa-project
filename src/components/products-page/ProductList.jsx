@@ -5,9 +5,21 @@ import GridLayout from "../GridLayout";
 import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchProducts } from "../../store/slices/productSlice";
 
 const ProductList = () => {
-  const products = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  console.log("useEffects fetchProducts");
+  const products = useSelector((state) => {
+    console.log("useSelector ", state.products.products);
+    return state.products.products;
+  });
   const userInfo = useSelector((state) => state.user);
   return (
     <Container maxWidth="lg">

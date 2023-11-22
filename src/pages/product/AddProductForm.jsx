@@ -7,12 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products);
+  // const products = useSelector((state) => state.products.products);
   const navigate = useNavigate();
   const [product, setProduct] = useState({
     productNumber: "",
     name: "",
     price: "",
+    imageUrl: "",
     description: "",
     numberInStock: "",
   });
@@ -22,15 +23,7 @@ const AddProductForm = () => {
   };
 
   const handleAddProduct = () => {
-    const existingProduct = products.find(
-      (prod) => prod.productNumber === product.productNumber
-    );
-
-    if (existingProduct) {
-      alert("Product already exists in stock!");
-      return;
-    }
-    console.log(product);
+    console.log("handleAddProduct", product);
     dispatch(addProduct(product));
     navigate("/products");
   };
@@ -48,9 +41,9 @@ const AddProductForm = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            name="productNumber"
+            name="number"
             label="Product Number"
-            value={product.productNumber}
+            value={product.number}
             onChange={handleInputChange}
             fullWidth
           />
@@ -95,6 +88,7 @@ const AddProductForm = () => {
         </Grid>
         <Grid item xs={12}>
           <input
+            name="imageUrl"
             accept="image/*"
             id="contained-button-file"
             type="file"
