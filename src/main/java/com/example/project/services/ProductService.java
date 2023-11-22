@@ -1,10 +1,11 @@
-package com.example.project.service;
+package com.example.project.services;
 
 import com.example.project.domain.Order;
 import com.example.project.domain.OrderStatus;
 import com.example.project.domain.Product;
-import com.example.project.repository.OrderRepository;
-import com.example.project.repository.ProductRepository;
+import com.example.project.repositories.OrderRepository;
+import com.example.project.repositories.ProductRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

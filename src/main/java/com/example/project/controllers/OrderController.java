@@ -1,10 +1,11 @@
-package com.example.project.control;
+package com.example.project.controllers;
 
+import com.example.project.adapters.OrderAdapter;
+import com.example.project.adapters.OrderDTO;
 import com.example.project.domain.Order;
-import com.example.project.domain.Product;
+import com.example.project.services.OrderService;
 import com.example.project.domain.OrderStatus;
-import com.example.project.service.OrderService;
-import com.example.project.service.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -20,14 +22,14 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public List<Order> getAllOrders() {
-        return orderService.getAllOrders();
+    public List<OrderDTO> getAllOrders() {
+        return orderService.getAllOrders().stream().map(OrderAdapter::toDTO).toList();
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrderById(@PathVariable String orderId) {
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable String orderId) {
         Order order = orderService.getOrderById(orderId);
-        return new ResponseEntity<>(order, HttpStatus.OK);
+        return new ResponseEntity<>(OrderAdapter.toDTO(order), HttpStatus.OK);
     }
 
     @PostMapping

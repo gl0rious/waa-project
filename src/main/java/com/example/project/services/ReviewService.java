@@ -1,14 +1,14 @@
-package com.example.project.service;
+package com.example.project.services;
 
 import com.example.project.domain.Order;
-import com.example.project.repository.OrderRepository;
-import com.example.project.repository.ReviewRepository;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.project.domain.OrderStatus;
 import com.example.project.domain.Review;
+import com.example.project.repositories.OrderRepository;
+import com.example.project.repositories.ReviewRepository;
 
 import java.time.LocalDateTime;
 

@@ -19,15 +19,17 @@ public class Product {
     private String number;
     private String name;
     private double price;
+    private String imageUrl;
     private String description;
     private int numberInStock;
     private List<Review> reviews;
 
-    public Product(String number, String name, double price, String description, int numberInStock) {
+    public Product(String number, String name, double price, String description, int numberInStock, String imageUrl) {
         this.number = number;
         this.name = name;
         this.price = price;
         this.description = description;
         this.numberInStock = numberInStock;
+        this.imageUrl = imageUrl;
     }
 }
