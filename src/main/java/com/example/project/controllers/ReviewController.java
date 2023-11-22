@@ -24,7 +24,6 @@ public class ReviewController {
 
     @GetMapping
     public ResponseEntity<List<Review>> getProductReviews(@PathVariable String productId) {
-        // check that product exists
         var reviews = reviewService.getReviewsForProduct(productId);
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }

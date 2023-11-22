@@ -34,7 +34,7 @@ public class OrderDTO {
     private String creditCardType;
     @Pattern(regexp = "\\d{16}")
     private String creditCardNumber;
-    @Pattern(regexp = "\\d{4}-\\d{2}")
+//    @Pattern(regexp = "\\d{4}-\\d{2}")
     private String creditCardExpiry;
     @Pattern(regexp = "\\d{3}")
     private String validationCode;
