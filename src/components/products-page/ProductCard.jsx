@@ -14,23 +14,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeProduct } from "../../store/slices/productSlice";
 import { addCartItem } from "../../store/slices/cartItemSlice.js";
 
-const ProductCard = (x) => {
+const ProductCard = (product) => {
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleAdToCart = () => {
     const newItem = {
-      id: x.id,
-      name: x.name,
-      price: x.price,
+      number: product.number,
+      name: product.name,
+      price: product.price,
       quantityInCart: 1,
-      imageUrl: x.imageUrl,
+      imageUrl: product.imageUrl,
     };
     dispatch(addCartItem(newItem));
   };
 
   const OnDeleteProduct = (e) => {
     e.preventDefault();
-    dispatch(removeProduct(x.id));
+    dispatch(removeProduct(product.number));
   };
   return (
     <Card
@@ -43,12 +43,12 @@ const ProductCard = (x) => {
     >
       <CardMedia
         sx={{ height: 140 }}
-        image={x.imageUrl || "http://via.placeholder.com/640x360"}
-        title={x.name}
+        image={product.imageUrl || "http://via.placeholder.com/640x360"}
+        title={product.name}
       />
       <CardContent sx={{ flex: "1 1 auto", justifyContent: "space-between" }}>
         <Typography gutterBottom variant="h6" component="div">
-          {x.name}
+          {product.name}
         </Typography>
         <Typography
           variant="body2"
@@ -60,10 +60,10 @@ const ProductCard = (x) => {
             overflow: "hidden",
           }}
         >
-          {x.description}
+          {product.description}
         </Typography>
         <Typography gutterBottom variant="h6" component="div">
-          {x.price}$
+          {product.price}$
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
@@ -81,7 +81,7 @@ const ProductCard = (x) => {
               </Button>
             </Link>
 
-            <Link to={`/products/${x.id}`}>
+            <Link to={`/products/${product.number}`}>
               <Button
                 component={Button}
                 size="small"
@@ -95,7 +95,7 @@ const ProductCard = (x) => {
           </>
         ) : (
           <>
-            <Link to={`/products/${x.id}/edit`}>
+            <Link to={`/products/${product.number}/edit`}>
               <Button
                 variant="contained"
                 color="success"

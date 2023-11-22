@@ -28,8 +28,9 @@ export const updateProduct = createAsyncThunk(
 );
 export const removeProduct = createAsyncThunk(
   "product/removeProduct",
-  async (product) => {
-    await axios.delete(`http://localhost:8080/api/products/${product.number}`);
+  async (number) => {
+    console.log("product/removeProduct", number);
+    await axios.delete(`http://localhost:8080/api/products/${number}`);
   }
 );
 
@@ -46,7 +47,7 @@ export const productSlice = createSlice({
     // },
     // updateProduct: (state, action) => {
     //   const index = state.products.findIndex(
-    //     (product) => product.productNumber !== action.payload.productNumber
+    //     (product) => product.number !== action.payload.number
     //   );
     //   if (index !== -1) {
     //     state.products[index] = action.payload;
@@ -54,7 +55,7 @@ export const productSlice = createSlice({
     // },
     // removeProduct: (state, action) => {
     //   const index = state.products.findIndex(
-    //     (product) => product.productNumber !== action.payload.productNumber
+    //     (product) => product.number !== action.payload.number
     //   );
     //   if (index !== -1) {
     //     state.products.splice(index, 1);
@@ -80,15 +81,16 @@ export const productSlice = createSlice({
     });
     builder.addCase(updateProduct.fulfilled, (state, action) => {
       const index = state.products.findIndex(
-        (product) => product.productNumber !== action.payload.productNumber
+        (product) => product.number !== action.payload.number
       );
       if (index !== -1) {
         state.products[index] = action.payload;
       }
     });
     builder.addCase(removeProduct.fulfilled, (state, action) => {
+      console.log("removeProduct.fulfilled", action);
       const index = state.products.findIndex(
-        (product) => product.productNumber !== action.payload.productNumber
+        (product) => product.number !== action.payload
       );
       if (index !== -1) {
         state.products.splice(index, 1);
