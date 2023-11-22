@@ -80,7 +80,6 @@ const ProductCard = (product) => {
                 Add to cart
               </Button>
             </Link>
-
             <Link to={`/products/${product.number}`}>
               <Button
                 component={Button}

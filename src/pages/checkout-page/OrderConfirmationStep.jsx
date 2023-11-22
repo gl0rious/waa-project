@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import {
     Grid,
@@ -13,18 +13,50 @@ import {
     TableCell
 } from "@mui/material";
 import {motion} from "framer-motion";
+import {addOrder} from "../../store/slices/orderSlice.js";
+import {useDispatch} from "react-redux";
 
-const OrderConfirmationStep = ({personalInfo, paymentInfo, onConfirm}) => {
+const OrderConfirmationStep = ({personalInfo, paymentInfo, onConfirm,items}) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
-
-    const handleConfirmOrder = () => {
-        onConfirm();
-        setShowConfirmation(true);
-        setTimeout(() => {
-            setShowConfirmation(false);
-        }, 2000);
+    const dispatch = useDispatch();
+    const [orderData,setOrderData] = useState({});
+    const transformItemsForBackend = (items) => {
+        return items.map((item) => {
+            return {
+                quantity: item.quantityInCart,
+                name: item.name,
+                price: parseFloat(item.price), // Assuming 'price' is received as a string
+            };
+        });
     };
+    const transformedItems = transformItemsForBackend(items);
 
+    const handleConfirmOrder = async () => {
+        try {
+            await dispatch(addOrder({
+                customerName: personalInfo.name,
+                email: personalInfo.email,
+                phone: personalInfo.phone,
+                street: personalInfo.street,
+                city: personalInfo.city,
+                zip: personalInfo.zip,
+                creditCardType: "VISA",
+                creditCardNumber: paymentInfo.cardNumber,
+                creditCardExpiry: paymentInfo.expirationDate,
+                validationCode: paymentInfo.validationCode,
+                status: "PENDING",
+                items: transformedItems
+            }));
+
+            setShowConfirmation(true);
+            setTimeout(() => {
+                setShowConfirmation(false);
+            }, 2000);
+        } catch (error) {
+            console.error("Error adding order:", error);
+            // Handle error state or show error message
+        }
+    };
     return (
         <Container maxWidth="sm"
                    style={{textAlign: "center", marginTop: "50px", backgroundColor: "#f0f0f0", padding: "20px"}}>
