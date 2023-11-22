@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {removeCartItem} from "../store/slices/cartItemSlice.js";
 import {Link} from "react-router-dom";
 
-const ShoppingCart = () => {
+const ShoppingCart = ({showSideBar}) => {
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cartItem);
 
@@ -28,7 +28,12 @@ const ShoppingCart = () => {
     const amountToPay = cartItems.reduce((total, item) => total + item.price * item.quantityInCart, 0);
 
     return (
-        <div style={{fontFamily: 'Arial, sans-serif', backgroundColor: '#f5f5f5', padding: '20px'}}>
+        <div style={{
+            fontFamily: 'Arial, sans-serif',
+            backgroundColor: '#f5f5f5',
+            padding: '20px',
+            marginLeft: !showSideBar ? '80px' : '0'
+        }}>
             <Typography variant="h4" align="center" gutterBottom>
                 Your Shopping Cart
             </Typography>

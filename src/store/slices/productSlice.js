@@ -15,7 +15,10 @@ export const productSlice = createSlice({
   name: "product",
   initialState: initialProductList,
   reducers: {
-    addProduct: (state, action) => [...state, action.payload],
+    addProduct: (state, action) => {
+
+      return [...state, action.payload]
+    },
     updateProduct: (state, action) => {
       state = [
         ...state.filter(

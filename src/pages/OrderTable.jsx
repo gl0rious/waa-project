@@ -17,7 +17,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {Link} from "react-router-dom"
 
-const OrderTable = () => {
+const OrderTable = ({showSideBar}) => {
     const [openRows, setOpenRows] = useState([]);
     const orderss = [
         {
@@ -84,86 +84,87 @@ const OrderTable = () => {
 
 
     return (
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell/>
-                    <TableCell style={tableCellStyle}>Order ID</TableCell>
-                    <TableCell style={tableCellStyle}>Order Date</TableCell>
-                    <TableCell style={tableCellStyle}>Shopping Address</TableCell>
-                    <TableCell style={tableCellStyle}>Order Status</TableCell>
-                    <TableCell style={tableCellStyle}>Customer Name</TableCell>
-                    <TableCell style={tableCellStyle}>Total Amount</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {orders.map((order) => (
-                    <React.Fragment key={order.id}>
-                        <TableRow>
-                            <TableCell>
-                                <IconButton onClick={() => handleRowClick(order.id)}>
-                                    {openRows.includes(order.id) ? (
-                                        <KeyboardArrowUpIcon/>
-                                    ) : (
-                                        <KeyboardArrowDownIcon/>
-                                    )}
-                                </IconButton>
-                            </TableCell>
-                            <TableCell>{order.orderId}</TableCell>
-                            <TableCell>{order.orderDate}</TableCell>
-                            <TableCell>{order.shoppingAddress}</TableCell>
-                            <TableCell>{order.orderStatus}</TableCell>
-                            <TableCell>{order.customerName}</TableCell>
-                            <TableCell>{order.totalAmount}</TableCell>
-                        </TableRow>
-                        <TableRow style={productRowStyle}>
-                            <TableCell colSpan={8}>
-                                <Collapse in={openRows.includes(order.id)} timeout="auto" unmountOnExit>
-                                    <Table>
-                                        <TableBody>
-                                            <TableRow>
-                                                <TableCell/>
-                                                <TableCell/>
-                                                <TableCell style={tableCellStyle}>Product Number</TableCell>
-                                                <TableCell style={tableCellStyle}>Product Name</TableCell>
-                                                <TableCell style={tableCellStyle}>Unit Price</TableCell>
-                                                <TableCell style={tableCellStyle}>Quantity</TableCell>
-                                                <TableCell style={tableCellStyle}>Total Amount</TableCell>
-                                            </TableRow>
-                                            {order.products.map((product) => (
-                                                <TableRow key={product.id}>
+        <div style={{ marginLeft: !showSideBar ? '80px' : '0' }}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell/>
+                        <TableCell style={tableCellStyle}>Order ID</TableCell>
+                        <TableCell style={tableCellStyle}>Order Date</TableCell>
+                        <TableCell style={tableCellStyle}>Shopping Address</TableCell>
+                        <TableCell style={tableCellStyle}>Order Status</TableCell>
+                        <TableCell style={tableCellStyle}>Customer Name</TableCell>
+                        <TableCell style={tableCellStyle}>Total Amount</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {orders.map((order) => (
+                        <React.Fragment key={order.id}>
+                            <TableRow>
+                                <TableCell>
+                                    <IconButton onClick={() => handleRowClick(order.id)}>
+                                        {openRows.includes(order.id) ? (
+                                            <KeyboardArrowUpIcon/>
+                                        ) : (
+                                            <KeyboardArrowDownIcon/>
+                                        )}
+                                    </IconButton>
+                                </TableCell>
+                                <TableCell>{order.orderId}</TableCell>
+                                <TableCell>{order.orderDate}</TableCell>
+                                <TableCell>{order.shoppingAddress}</TableCell>
+                                <TableCell>{order.orderStatus}</TableCell>
+                                <TableCell>{order.customerName}</TableCell>
+                                <TableCell>{order.totalAmount}</TableCell>
+                            </TableRow>
+                            <TableRow style={productRowStyle}>
+                                <TableCell colSpan={8}>
+                                    <Collapse in={openRows.includes(order.id)} timeout="auto" unmountOnExit>
+                                        <Table>
+                                            <TableBody>
+                                                <TableRow>
                                                     <TableCell/>
                                                     <TableCell/>
-                                                    <TableCell>
-                                                        <Link to={`/products/${product.id}`}>{product.id}</Link>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography>{product.productName}</Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography variant="body2">
-                                                            ${product.price}
-                                                            <br/>
-                                                        </Typography>
-                                                    </TableCell>
-
-                                                    <TableCell>
-                                                        <Typography variant="body2">
-                                                            {product.quantity}
-                                                            <br/>
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography variant="body2">
-                                                            ${product.quantity * product.price}
-                                                            <br/>
-                                                        </Typography>
-                                                    </TableCell>
+                                                    <TableCell style={tableCellStyle}>Product Number</TableCell>
+                                                    <TableCell style={tableCellStyle}>Product Name</TableCell>
+                                                    <TableCell style={tableCellStyle}>Unit Price</TableCell>
+                                                    <TableCell style={tableCellStyle}>Quantity</TableCell>
+                                                    <TableCell style={tableCellStyle}>Total Amount</TableCell>
                                                 </TableRow>
-                                            ))}
-                                            <TableRow>
-                                                <TableCell/>
-                                                <TableCell/> <TableCell/>  <TableCell/>
+                                                {order.products.map((product) => (
+                                                    <TableRow key={product.id}>
+                                                        <TableCell/>
+                                                        <TableCell/>
+                                                        <TableCell>
+                                                            <Link to={`/products/${product.id}`}>{product.id}</Link>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography>{product.productName}</Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography variant="body2">
+                                                                ${product.price}
+                                                                <br/>
+                                                            </Typography>
+                                                        </TableCell>
+
+                                                        <TableCell>
+                                                            <Typography variant="body2">
+                                                                {product.quantity}
+                                                                <br/>
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography variant="body2">
+                                                                ${product.quantity * product.price}
+                                                                <br/>
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                                <TableRow>
+                                                    <TableCell/>
+                                                    <TableCell/> <TableCell/>  <TableCell/>
                                                     <Grid container alignItems="center" justifyContent="center">
                                                         <Grid item xs={6} md={4} textAlign="center">
                                                             <Button variant="contained" color="secondary">
@@ -183,18 +184,21 @@ const OrderTable = () => {
                                                             </Button>
                                                         </Grid>
                                                     </Grid>
-                                                <TableCell/>
-                                                <TableCell/> <TableCell/>  <TableCell/>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </Collapse>
-                            </TableCell>
-                        </TableRow>
-                    </React.Fragment>
-                ))}
-            </TableBody>
-        </Table>
+                                                    <TableCell/>
+                                                    <TableCell/> <TableCell/>  <TableCell/>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </Collapse>
+                                </TableCell>
+                            </TableRow>
+                        </React.Fragment>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
+
+
     );
 };
 
