@@ -11,7 +11,6 @@ export const fetchProducts = createAsyncThunk(
 export const addProduct = createAsyncThunk(
   "product/addProduct",
   async (product) => {
-    console.log("addProduct.createAsyncThunk", product);
     const res = await axios.post("http://localhost:8080/api/products", product);
     return res.data;
   }
@@ -19,17 +18,18 @@ export const addProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async (product) => {
-    const res = await axios.update(
+    // console.log("updateProduct", product);
+    const res = await axios.put(
       `http://localhost:8080/api/products/${product.number}`,
       product
     );
+    console.log("updateProduct after wait", res.data);
     return res.data;
   }
 );
 export const removeProduct = createAsyncThunk(
   "product/removeProduct",
   async (number) => {
-    console.log("product/removeProduct", number);
     await axios.delete(`http://localhost:8080/api/products/${number}`);
   }
 );
@@ -76,10 +76,10 @@ export const productSlice = createSlice({
       state.products = action.payload;
     });
     builder.addCase(addProduct.fulfilled, (state, action) => {
-      console.log("addProduct.fulfilled", action);
       state.products.push(action.payload);
     });
     builder.addCase(updateProduct.fulfilled, (state, action) => {
+      console.log("updateProduct.fulfilled", action);
       const index = state.products.findIndex(
         (product) => product.number !== action.payload.number
       );
@@ -88,7 +88,6 @@ export const productSlice = createSlice({
       }
     });
     builder.addCase(removeProduct.fulfilled, (state, action) => {
-      console.log("removeProduct.fulfilled", action);
       const index = state.products.findIndex(
         (product) => product.number !== action.payload
       );

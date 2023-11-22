@@ -15,9 +15,7 @@ const ProductList = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  console.log("useEffects fetchProducts");
   const products = useSelector((state) => {
-    console.log("useSelector ", state.products.products);
     return state.products.products;
   });
   const userInfo = useSelector((state) => state.user);

@@ -9,13 +9,11 @@ const LoginPage = () => {
   const loginAsEmployee = (e) => {
     e.preventDefault();
     dispatch(setUserInfo({ username: "employee", role: "employee" }));
-    console.log("set user employee");
     navigate("/products");
   };
   const loginAsUser = (e) => {
     e.preventDefault();
     dispatch(setUserInfo({ username: "user", role: "user" }));
-    console.log("set user user");
     navigate("/products");
   };
   return (

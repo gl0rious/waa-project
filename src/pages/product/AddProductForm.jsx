@@ -1,8 +1,8 @@
-import React, {useState} from "react";
-import {useDispatch} from "react-redux";
-import {Button, Container, Grid, TextField} from "@mui/material";
-import {addProduct} from "../../store/slices/productSlice";
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Button, Container, Grid, TextField } from "@mui/material";
+import { addProduct } from "../../store/slices/productSlice";
+import { useNavigate } from "react-router-dom";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,6 @@ const AddProductForm = () => {
   };
 
   const handleAddProduct = () => {
-    console.log("handleAddProduct", product);
     dispatch(addProduct(product));
     navigate("/products");
   };
