@@ -12,39 +12,27 @@ import {
     TableContainer, TableCell, TableRow
 } from "@mui/material";
 import Rating from '@mui/material/Rating';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import CardMedia from "@mui/material/CardMedia";
+import {addReview, fetchReviews} from "../../store/slices/reviewSlice.js";
 
 const ProductDetail = () => {
     const {productId} = useParams();
     const product = useSelector((state) =>
-        state.products.find((product) => product.id === productId)
+        state.products.products.find((product) => product.number === productId)
     );
+    const dispatch = useDispatch();
 
-    const [reviews, setReviews] = useState([
-        {
-            id: 1,
-            user: 'Alice',
-            rating: 4,
-            comment: 'Great product, very useful!',
-        },
-        {
-            id: 2,
-            user: 'Bob',
-            rating: 5,
-            comment: 'Excellent quality and fast shipping.',
-        },
-        {
-            id: 3,
-            user: 'Charlie',
-            rating: 3,
-            comment: 'Good product, but could be improved.',
-        },
-    ]);
+    useEffect(() => {
+        dispatch(fetchReviews(productId));
+    }, [dispatch]);
 
-
+    const reviewstest = useSelector((state) => state.reviews); // Fetching orders from Redux store
+    console.log(reviewstest)
+    const user = useSelector(state => state.user)
+    console.log(user)
     const [userRating, setUserRating] = useState(0);
     const [comment, setComment] = useState('');
 
@@ -58,13 +46,12 @@ const ProductDetail = () => {
 
     const handleSubmit = () => {
         const newReview = {
-            id: reviews.length + 1,
-            user: 'New User',
+            username: user.username,
+            productId: productId,
             rating: userRating,
             comment: comment,
         };
-
-        setReviews([...reviews, newReview]);
+        dispatch(addReview(newReview));
         setUserRating(0);
         setComment('');
     };
@@ -91,7 +78,7 @@ const ProductDetail = () => {
                                             <TableCell align="right" style={{
                                                 float: "left",
                                                 fontSize: "16px",
-                                            }}>{product.id}</TableCell>
+                                            }}>{product.number}</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell scope="row" style={{fontSize: "12.8px"}}>
@@ -143,8 +130,11 @@ const ProductDetail = () => {
                 Product Reviews:
             </Typography>
 
-            {reviews.map((review) => (
+            {reviewstest.reviews.map((review) => (
                 <Card key={review.id} style={{marginBottom: '10px'}}>
+                    <Typography variant="subtitle1" style={{color: 'gray', marginBottom: '8px'}}>
+                        <strong>{review.username}</strong> | {new Date(review.timestamp).toLocaleDateString('en-US')}
+                    </Typography>
                     <CardContent>
                         <Typography variant="body1">
                             <Rating

@@ -6,6 +6,7 @@ import OrderConfirmationStep from "./OrderConfirmationStep.jsx";
 import {Button, Container} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {addOrder} from "../../store/slices/orderSlice.js";
+import {useLocation} from "react-router-dom";
 
 const Checkout = () => {
     const [step, setStep] = useState(1);
@@ -15,7 +16,9 @@ const Checkout = () => {
     const [orderData, setOrderData] = useState({});
     const dispatch = useDispatch();
     const orders = useSelector(state => state.order);
-
+    const location  = useLocation();
+    const items  = location.state.items
+    console.log(items)
     const nextStep = () => {
         setStep((prevStep) => prevStep + 1);
     };
@@ -99,6 +102,7 @@ const Checkout = () => {
                     personalInfo={personalInfo}
                     paymentInfo={paymentInfo}
                     onConfirm={confirmOrder}
+                    items={items}
                 />
             )}
             {orderConfirmed && <p>Order confirmed! Thank you for your purchase.</p>}

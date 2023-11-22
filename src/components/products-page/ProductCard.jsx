@@ -81,7 +81,7 @@ const ProductCard = (x) => {
               </Button>
             </Link>
 
-            <Link to={`/products/${x.id}`}>
+            <Link to={`/products/${x.number}`}>
               <Button
                 component={Button}
                 size="small"
