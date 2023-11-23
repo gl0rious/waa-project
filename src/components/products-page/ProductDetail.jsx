@@ -21,6 +21,7 @@ import CardMedia from "@mui/material/CardMedia";
 import { fetchProducts } from "../../store/slices/productSlice";
 const ProductDetail = () => {
   const { number } = useParams();
+  const userInfo = useSelector(state => state.user)
   const product = useSelector((state) => {
     console.log("ProductDetail", number);
     console.log("ProductDetail", state.products.products);
@@ -196,7 +197,9 @@ const ProductDetail = () => {
           </CardContent>
         </Card>
       ))}
-      <Box mt={4}>
+      {userInfo.role == "user" && (
+
+          <Box mt={4}>
         <Typography variant="h6" gutterBottom>
           Add Your Review:
         </Typography>
@@ -224,6 +227,7 @@ const ProductDetail = () => {
           Submit Review
         </Button>
       </Box>
+      )}
     </Container>
   );
 };

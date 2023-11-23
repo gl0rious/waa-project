@@ -5,6 +5,7 @@ import OrderConfirmationStep from "./OrderConfirmationStep.jsx";
 import { Button, Container } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrder } from "../../store/slices/orderSlice.js";
+import {useLocation} from "react-router-dom";
 
 const Checkout = () => {
   const [step, setStep] = useState(1);

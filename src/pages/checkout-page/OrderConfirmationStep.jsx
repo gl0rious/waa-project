@@ -15,17 +15,23 @@ import {
 import {motion} from "framer-motion";
 import {addOrder} from "../../store/slices/orderSlice.js";
 import {useDispatch} from "react-redux";
+import {useLocation} from "react-router-dom";
 
-const OrderConfirmationStep = ({personalInfo, paymentInfo, onConfirm,items}) => {
+const OrderConfirmationStep = ({personalInfo, paymentInfo, onConfirm}) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const dispatch = useDispatch();
     const [orderData,setOrderData] = useState({});
+    const location = useLocation();
+    const items = location.state.items;
+    const tolatAmount =location.state.amountToPay
     const transformItemsForBackend = (items) => {
         return items.map((item) => {
+            console.log(item)
             return {
+                productId:item.number,
                 quantity: item.quantityInCart,
                 name: item.name,
-                price: parseFloat(item.price), // Assuming 'price' is received as a string
+                price: parseFloat(item.price),
             };
         });
     };
@@ -44,7 +50,7 @@ const OrderConfirmationStep = ({personalInfo, paymentInfo, onConfirm,items}) => 
                 creditCardNumber: paymentInfo.cardNumber,
                 creditCardExpiry: paymentInfo.expirationDate,
                 validationCode: paymentInfo.validationCode,
-                status: "PENDING",
+                status: "PLACED",
                 items: transformedItems
             }));
 

@@ -78,7 +78,7 @@ const ShoppingCart = ({showSideBar}) => {
                     </Grid>
                 </Grid>
                 <Grid style={{marginTop: '20px'}}>
-                    <Link to={`/checkout`} state={{items: cartItems}}>
+                    <Link to={`/checkout`} state={{items: cartItems,amountToPay:amountToPay}}>
                         <Button
                             id="checkout"
                             disabled={itemsInCart.length === 0}

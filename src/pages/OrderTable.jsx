@@ -27,8 +27,7 @@ const OrderTable = ({ showSideBar }) => {
         dispatch(fetchOrders());
     }, [dispatch]);
 
-    const testordrs = useSelector((state) => state.order); // Fetching orders from Redux store
-    console.log(testordrs)
+    const testordrs = useSelector((state) => state.order);
     const tableCellStyle = {
         fontWeight: 'bold',
     };
@@ -96,11 +95,10 @@ const OrderTable = ({ showSideBar }) => {
                                                 </TableRow>
                                                 {order.items.map((product) => (
                                                     <TableRow key={product.productId}>
-                                                        {/* Update this part to match your product structure */}
                                                         <TableCell />
                                                         <TableCell />
                                                         <TableCell>
-                                                            <Link to={`/products/${product.id}`}>{product.productId}</Link>
+                                                            <Link to={`/products/${product.productId}`}>{product.productId}</Link>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography>{product.name}</Typography>
@@ -125,7 +123,6 @@ const OrderTable = ({ showSideBar }) => {
                                                         </TableCell>
                                                     </TableRow>
                                                 ))}
-                                                {/* Rest of the table rows and content */}
                                             </TableBody>
                                         </Table>
                                     </Collapse>
