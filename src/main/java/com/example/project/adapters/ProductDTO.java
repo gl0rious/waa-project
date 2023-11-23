@@ -21,7 +21,6 @@ public class ProductDTO {
     private String name;
     @Min(0)
     private double price;
-    @NotEmpty
     private String imageUrl;
     @Size(min = 10)
     private String description;
