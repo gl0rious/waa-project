@@ -1,5 +1,7 @@
 package com.example.project.services;
 
+import com.example.project.adapters.OrderAdapter;
+import com.example.project.adapters.OrderDTO;
 import com.example.project.domain.Order;
 import com.example.project.domain.OrderItem;
 
@@ -20,7 +22,8 @@ public class OrderService {
     @Autowired
     ProductRepository productRepository;
 
-    public Order save(Order order) {
+    public OrderDTO save(OrderDTO orderDTO) {
+        Order order = OrderAdapter.fromDTO(orderDTO);
         if (!isValid(order))
             return null;
         for (OrderItem item : order.getItems()) {
@@ -29,8 +32,12 @@ public class OrderService {
             productRepository.save(product);
         }
         order.setTimestamp(LocalDateTime.now());
-        return orderRepository.save(order);
+        return OrderAdapter.toDTO(orderRepository.save(order));
     }
+//    public OrderDTO save(OrderDTO orderDTO) {
+//        Order order = OrderAdapter.fromDTO(orderDTO);
+//        return OrderAdapter.toDTO(orderRepository.save(order));
+//    }
 
     public Order getOrderById(String orderId) {
         return orderRepository.findById(orderId).get();

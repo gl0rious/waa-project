@@ -16,7 +16,6 @@ import com.example.project.domain.OrderStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDTO {
-    @NotEmpty
     private String id;
     @NotEmpty
     private String customerName;

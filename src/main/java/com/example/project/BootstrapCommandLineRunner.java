@@ -30,7 +30,7 @@ public class BootstrapCommandLineRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         saveProducts();
         saveReviews();
-        saveOrders();
+//        saveOrders();
     }
 
     public void saveProducts() {
@@ -54,31 +54,31 @@ public class BootstrapCommandLineRunner implements CommandLineRunner {
         reviewService.save(new Review("5", "Eve", "5", "Comment 5", 1));
     }
 
-    public void saveOrders() {
-        var item = new Order("1",
-                Arrays.asList(
-                        new OrderItem("1", 1,"product 1",222.9),
-                        new OrderItem("2", 2,"product 2",222.9),
-                        new OrderItem("3", 3,"product 3",222.9)
-                ),
-                "Bob", "9Jx1H@example.com",
-                "123-456-7890", "123 Main St", "New York",
-                "10001", "Visa", "1234 5678 9012 3456",
-                "01/22");
-        orderService.save(item);
-        for (int i = 0; i < 5; i++) {
-            item = new Order(
-                    Integer.toString(i + 2),
-                    Arrays.asList(
-                            new OrderItem("1", 1,"product 1",222.9),
-                            new OrderItem("2", 2,"product 2",222.9),
-                            new OrderItem("3", 3,"product 3",222.9)),
-                    "User " + i, "user" + i + "@example.com",
-                    "123-456-7890", "123 Main St", "New York",
-                    "10001", "Visa", "1234 5678 9012 3456",
-                    "01/22");
-            orderService.save(item);
-        }
-
-    }
+//    public void saveOrders() {
+//        var item = new Order("1",
+//                Arrays.asList(
+//                        new OrderItem("1", 1,"product 1",222.9),
+//                        new OrderItem("2", 2,"product 2",222.9),
+//                        new OrderItem("3", 3,"product 3",222.9)
+//                ),
+//                "Bob", "9Jx1H@example.com",
+//                "123-456-7890", "123 Main St", "New York",
+//                "10001", "Visa", "1234 5678 9012 3456",
+//                "01/22");
+//        orderService.save(item);
+//        for (int i = 0; i < 5; i++) {
+//            item = new Order(
+//                    Integer.toString(i + 2),
+//                    Arrays.asList(
+//                            new OrderItem("1", 1,"product 1",222.9),
+//                            new OrderItem("2", 2,"product 2",222.9),
+//                            new OrderItem("3", 3,"product 3",222.9)),
+//                    "User " + i, "user" + i + "@example.com",
+//                    "123-456-7890", "123 Main St", "New York",
+//                    "10001", "Visa", "1234 5678 9012 3456",
+//                    "01/22");
+//            orderService.save(item);
+//        }
+//
+//    }
 }
