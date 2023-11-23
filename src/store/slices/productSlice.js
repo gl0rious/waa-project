@@ -64,13 +64,13 @@ export const productSlice = createSlice({
   },
   // reducers: {},
   extraReducers: (builder) => {
-    // builder.addCase(fetchProducts.pending, (state) => {
-    //   state.isLoading = true;
-    // });
-    // builder.addCase(fetchProducts.rejected, (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = action.error.message;
-    // });
+    builder.addCase(fetchProducts.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchProducts.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message;
+    });
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.products = action.payload;
@@ -81,7 +81,7 @@ export const productSlice = createSlice({
     builder.addCase(updateProduct.fulfilled, (state, action) => {
       console.log("updateProduct.fulfilled", action);
       const index = state.products.findIndex(
-        (product) => product.number !== action.payload.number
+        (product) => product.number === action.payload.number
       );
       if (index !== -1) {
         state.products[index] = action.payload;
@@ -89,7 +89,7 @@ export const productSlice = createSlice({
     });
     builder.addCase(removeProduct.fulfilled, (state, action) => {
       const index = state.products.findIndex(
-        (product) => product.number !== action.payload
+        (product) => product.number === action.payload
       );
       if (index !== -1) {
         state.products.splice(index, 1);

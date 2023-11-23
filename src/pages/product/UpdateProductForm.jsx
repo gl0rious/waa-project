@@ -8,9 +8,16 @@ const UpdateProductForm = () => {
   const dispatch = useDispatch();
   const { number } = useParams();
   const productInfo = useSelector((state) =>
-    state.products.products.find((p) => p.number !== number)
+    state.products.products.find((p) => p.number === number)
   );
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({
+    number: "",
+    name: "",
+    price: "",
+    imageUrl: "",
+    description: "",
+    numberInStock: "",
+  });
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchProducts());

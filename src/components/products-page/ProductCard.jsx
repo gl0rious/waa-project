@@ -13,9 +13,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch } from "react-redux";
 import { removeProduct } from "../../store/slices/productSlice";
 import { addCartItem } from "../../store/slices/cartItemSlice.js";
+import Skeleton from "@mui/material/Skeleton";
+import Box from "@mui/material/Box";
 
 const ProductCard = (product) => {
   const userInfo = useSelector((state) => state.user);
+  const isLoading = useSelector((state) => state.products.isLoading);
   const dispatch = useDispatch();
   const handleAdToCart = () => {
     const newItem = {
@@ -41,30 +44,44 @@ const ProductCard = (product) => {
         flexDirection: "column",
       }}
     >
-      <CardMedia
-        sx={{ height: 140 }}
-        image={product.imageUrl || "http://via.placeholder.com/640x360"}
-        title={product.name}
-      />
+      {isLoading ? (
+        <Skeleton variant="rectangular" width="100%" height={140} />
+      ) : (
+        <CardMedia
+          sx={{ height: 140 }}
+          image={product.imageUrl || "http://via.placeholder.com/640x360"}
+          title={product.name}
+        />
+      )}
       <CardContent sx={{ flex: "1 1 auto", justifyContent: "space-between" }}>
-        <Typography gutterBottom variant="h6" component="div">
-          {product.name}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          }}
-        >
-          {product.description}
-        </Typography>
-        <Typography gutterBottom variant="h6" component="div">
-          {product.price}$
-        </Typography>
+        {isLoading ? (
+          <React.Fragment>
+            <Skeleton sx={{ mb: 1 }} variant="rectangular" width="80%" />
+            <Skeleton sx={{ mb: 1 }} variant="rectangular" width="40%" />
+            <Skeleton variant="rectangular" width="100%" height={60} />
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Typography gutterBottom variant="h6" component="div">
+              {product.name}
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              }}
+            >
+              {product.description}
+            </Typography>
+            <Typography gutterBottom variant="h6" component="div">
+              {product.price}$
+            </Typography>
+          </React.Fragment>
+        )}
       </CardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
         {userInfo.role === "user" ? (

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { fetchProducts } from "../../store/slices/productSlice";
 
 const ProductList = () => {
+  // const isLoading = useSelector((state) => state.products.isLoading);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
