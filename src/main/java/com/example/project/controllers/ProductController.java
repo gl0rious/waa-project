@@ -6,7 +6,6 @@ import com.example.project.domain.Product;
 import com.example.project.services.ProductService;
 
 import jakarta.validation.Valid;
-import lombok.experimental.var;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

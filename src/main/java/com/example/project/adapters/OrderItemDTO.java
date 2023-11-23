@@ -14,4 +14,6 @@ public class OrderItemDTO {
     private String productId;
     @Min(1)
     private int quantity;
+    private String name;
+    private double price;
 }

@@ -48,6 +48,8 @@ public class OrderAdapter {
         OrderItemDTO orderItemDTO = new OrderItemDTO();
         orderItemDTO.setProductId(orderItem.getProductId());
         orderItemDTO.setQuantity(orderItem.getQuantity());
+        orderItemDTO.setName(orderItem.getName());
+        orderItemDTO.setPrice(orderItem.getPrice());
         return orderItemDTO;
     }
 
@@ -55,6 +57,8 @@ public class OrderAdapter {
         OrderItem orderItem = new OrderItem();
         orderItem.setProductId(orderItemDTO.getProductId());
         orderItem.setQuantity(orderItemDTO.getQuantity());
+        orderItem.setName(orderItemDTO.getName());
+        orderItem.setPrice(orderItemDTO.getPrice());
         return orderItem;
     }
 }
