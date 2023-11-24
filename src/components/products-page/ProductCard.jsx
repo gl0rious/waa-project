@@ -13,13 +13,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch } from "react-redux";
 import { removeProduct } from "../../store/slices/productSlice";
 import { addCartItem } from "../../store/slices/cartItemSlice.js";
-import Skeleton from "@mui/material/Skeleton";
-import Box from "@mui/material/Box";
+import {API} from "../../API.js";
 
 const ProductCard = (product) => {
   const userInfo = useSelector((state) => state.user);
   const isLoading = useSelector((state) => state.products.isLoading);
   const dispatch = useDispatch();
+  console.log(product.imageUrl);
   const handleAdToCart = () => {
     const newItem = {
       number: product.number,
@@ -49,7 +49,7 @@ const ProductCard = (product) => {
       ) : (
         <CardMedia
           sx={{ height: 140 }}
-          image={product.imageUrl || "http://via.placeholder.com/640x360"}
+          image={`${API}/${product.imageUrl}`}
           title={product.name}
         />
       )}
