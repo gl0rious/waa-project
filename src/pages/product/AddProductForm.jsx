@@ -3,11 +3,13 @@ import { useDispatch } from "react-redux";
 import { Button, Container, Grid, TextField } from "@mui/material";
 import { addProduct } from "../../store/slices/productSlice";
 import { useNavigate } from "react-router-dom";
+import {API} from "../../API.js";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
   // const products = useSelector((state) => state.products.products);
   const navigate = useNavigate();
+  console.log(API)
   const [product, setProduct] = useState({
     productNumber: "",
     name: "",
@@ -21,19 +23,38 @@ const AddProductForm = () => {
     setProduct({ ...product, [name]: value });
   };
 
-  const handleAddProduct = () => {
-    dispatch(addProduct(product));
-    navigate("/products");
+  const handleAddProduct = async () => {
+    const formData = new FormData();
+    formData.append("file", product.image); // Assuming "file" is the key for the file in the form data
+
+    try {
+      console.log(formData)
+      const response = await fetch('http://localhost:8080/api/uploadFile', {
+        method: 'POST',
+        body: formData,
+        // Additional headers if necessary, like authorization headers
+      });
+
+      if (response.ok) {
+        const res = await response.json();
+        const updatedProduct = { ...product, imageUrl: res.fileName };
+        dispatch(addProduct(updatedProduct));
+        navigate("/products");
+      } else {
+        // Handle error scenario
+        console.error('File upload failed');
+      }
+    } catch (error) {
+      // Handle fetch or other errors
+      console.error('Error uploading file:', error);
+    }
   };
+
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
     setProduct({ ...product, image: imageFile });
-
-    if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
-      setProduct({ ...product, imageUrl });
-    }
   };
+
   return (
     <Container maxWidth="sm" style={{ textAlign: "center", marginTop: "50px" }}>
       <Grid container spacing={2}>
@@ -86,12 +107,12 @@ const AddProductForm = () => {
         </Grid>
         <Grid item xs={12}>
           <input
-            name="imageUrl"
-            accept="image/*"
-            id="contained-button-file"
-            type="file"
-            style={{ display: "none" }}
-            onChange={handleImageChange}
+              name="image"
+              accept="image/*"
+              id="contained-button-file"
+              type="file"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
           />
           <label htmlFor="contained-button-file">
             <Button variant="contained" component="span">

@@ -18,6 +18,7 @@ const ProductList = () => {
   const products = useSelector((state) => {
     return state.products.products;
   });
+  console.log(products)
   const userInfo = useSelector((state) => state.user);
   return (
     <Container maxWidth="lg">

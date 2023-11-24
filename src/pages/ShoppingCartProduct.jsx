@@ -3,6 +3,7 @@ import {IconButton, Input, styled, TableCell, TableRow} from '@mui/material';
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
 import {updateCartItemQuantity} from "../store/slices/cartItemSlice.js";
+import {API} from "../API.js";
 
 const StyledIconButton = styled(IconButton)(() => ({
     color: 'red',
@@ -26,10 +27,10 @@ const ShoppingCartProduct = (x) => {
     return (
         <TableRow>
             <TableCell>
-                <img src={x.item.image} alt={x.item.name} style={{width: '50px'}}/>
+                <img src={`${API}/${x.item.imageUrl}`} alt={x.item.name} style={{width: '50px'}}/>
             </TableCell>
             <TableCell>{x.item.name}</TableCell>
-            <TableCell>£{x.item.price}</TableCell>
+            <TableCell>${x.item.price}</TableCell>
             <TableCell>
                 <Input
                     type="number"
