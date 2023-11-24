@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { updateProduct, fetchProducts } from "../../store/slices/productSlice";
+import { useSnackbar } from "notistack";
 const UpdateProductForm = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const { number } = useParams();
   const productInfo = useSelector((state) =>
@@ -27,18 +29,25 @@ const UpdateProductForm = () => {
   }, [productInfo]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
+    console.log(product);
     setProduct({ ...product, [name]: value });
   };
-  const handleUpdateProduct = () => {
-    dispatch(updateProduct(product));
-    navigate("/products");
-    // setProduct({
-    //   number: "",
-    //   name: "",
-    //   price: "",
-    //   description: "",
-    //   numberInStock: "",
-    // });
+  const handleUpdateProduct = async () => {
+    dispatch(updateProduct(product))
+      .unwrap()
+      .then(() => {
+        navigate("/products");
+      })
+      .catch(() => {
+        enqueueSnackbar("Failed to update product!", {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "right",
+          },
+        });
+      });
   };
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];

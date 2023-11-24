@@ -17,20 +17,23 @@ export const addProduct = createAsyncThunk(
 );
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
-  async (product) => {
-    // console.log("updateProduct", product);
+  async (product, thunkAPI) => {
+    // try {
     const res = await axios.put(
       `http://localhost:8080/api/products/${product.number}`,
       product
     );
-    console.log("updateProduct after wait", res.data);
     return res.data;
+    // } catch (error) {
+    //   return thunkAPI.rejectWithValue({ message: "Failed to update product" });
+    // }
   }
 );
 export const removeProduct = createAsyncThunk(
   "product/removeProduct",
   async (number) => {
     await axios.delete(`http://localhost:8080/api/products/${number}`);
+    return number;
   }
 );
 
@@ -41,28 +44,7 @@ export const productSlice = createSlice({
     isLoading: false,
     error: null,
   },
-  reducers: {
-    // addProduct: (state, action) => {
-    //   state.products.push(action.payload);
-    // },
-    // updateProduct: (state, action) => {
-    //   const index = state.products.findIndex(
-    //     (product) => product.number !== action.payload.number
-    //   );
-    //   if (index !== -1) {
-    //     state.products[index] = action.payload;
-    //   }
-    // },
-    // removeProduct: (state, action) => {
-    //   const index = state.products.findIndex(
-    //     (product) => product.number !== action.payload.number
-    //   );
-    //   if (index !== -1) {
-    //     state.products.splice(index, 1);
-    //   }
-    // },
-  },
-  // reducers: {},
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {
       state.isLoading = true;
@@ -79,7 +61,6 @@ export const productSlice = createSlice({
       state.products.push(action.payload);
     });
     builder.addCase(updateProduct.fulfilled, (state, action) => {
-      console.log("updateProduct.fulfilled", action);
       const index = state.products.findIndex(
         (product) => product.number === action.payload.number
       );
@@ -97,8 +78,5 @@ export const productSlice = createSlice({
     });
   },
 });
-
-// export const { addProduct, updateProduct, removeProduct } =
-//   productSlice.actions;
 
 export default productSlice.reducer;

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -13,7 +12,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch } from "react-redux";
 import { removeProduct } from "../../store/slices/productSlice";
 import { addCartItem } from "../../store/slices/cartItemSlice.js";
+<<<<<<< Updated upstream
 import {API} from "../../API.js";
+=======
+import Skeleton from "@mui/material/Skeleton";
+>>>>>>> Stashed changes
 
 const ProductCard = (product) => {
   const userInfo = useSelector((state) => state.user);
@@ -33,6 +36,7 @@ const ProductCard = (product) => {
 
   const OnDeleteProduct = (e) => {
     e.preventDefault();
+    console.log(product.number);
     dispatch(removeProduct(product.number));
   };
   return (
@@ -55,13 +59,13 @@ const ProductCard = (product) => {
       )}
       <CardContent sx={{ flex: "1 1 auto", justifyContent: "space-between" }}>
         {isLoading ? (
-          <React.Fragment>
+          <>
             <Skeleton sx={{ mb: 1 }} variant="rectangular" width="80%" />
             <Skeleton sx={{ mb: 1 }} variant="rectangular" width="40%" />
             <Skeleton variant="rectangular" width="100%" height={60} />
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
+          <>
             <Typography gutterBottom variant="h6" component="div">
               {product.name}
             </Typography>
@@ -80,7 +84,7 @@ const ProductCard = (product) => {
             <Typography gutterBottom variant="h6" component="div">
               {product.price}$
             </Typography>
-          </React.Fragment>
+          </>
         )}
       </CardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>

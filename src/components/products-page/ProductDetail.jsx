@@ -23,12 +23,12 @@ const ProductDetail = () => {
   const { number } = useParams();
   const userInfo = useSelector(state => state.user)
   const product = useSelector((state) => {
-    console.log("ProductDetail", number);
-    console.log("ProductDetail", state.products.products);
+    // console.log("ProductDetail", number);
+    // console.log("ProductDetail", state.products.products);
     const p = state.products.products.find(
       (product) => product.number === number
     );
-    console.log("ProductDetail p", p);
+    // console.log("ProductDetail p", p);
     return (
       p || {
         number: "",
@@ -42,7 +42,7 @@ const ProductDetail = () => {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("ProductDetail useEffect");
+    // console.log("ProductDetail useEffect");
     dispatch(fetchProducts());
   }, [dispatch]);
 

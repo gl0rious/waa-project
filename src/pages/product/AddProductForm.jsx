@@ -11,7 +11,7 @@ const AddProductForm = () => {
   const navigate = useNavigate();
   console.log(API)
   const [product, setProduct] = useState({
-    productNumber: "",
+    number: "",
     name: "",
     price: "",
     imageUrl: "",

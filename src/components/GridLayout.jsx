@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 
 const GridLayout = ({ ItemComponent, items }) => {
-  console.log(items);
+  // console.log(items);
   return (
     <Grid container spacing={2}>
       {items &&
