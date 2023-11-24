@@ -10,7 +10,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import StorefrontIcon from "@mui/icons-material/Storefront";
-import ReceiptIcon from "@mui/icons-material/Receipt";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import Slide from "@mui/material/Slide";
 import { useSelector } from "react-redux";
@@ -24,14 +23,6 @@ const styles = {
     flexShrink: 0,
     transition: "width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
   },
-  darkGreyBackground: {
-    backgroundColor: "darkgrey",
-  },
-  drawerClose: {
-    transition: "width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
-    overflowX: "hidden",
-    width: 55,
-  },
   sidebarHeader: {
     display: "flex",
     alignItems: "center",
@@ -41,9 +32,11 @@ const styles = {
   },
   listItem: {
     "&:hover": {
-      backgroundColor: "#1976d2",
-      color: "#fff",
+      backgroundColor: "#f0f0f0", // Lighter background on hover
     },
+  },
+  listItemText: {
+    marginLeft: "12px", // Adjust text spacing for icons
   },
 };
 
@@ -55,59 +48,63 @@ function Sidebar({ onShow }) {
     setShowSidebar(!showSidebar);
     onShow(showSidebar);
   };
+
   return (
-    <div>
-      <IconButton onClick={toggleSidebar}>
-        {showSidebar ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-      </IconButton>
-      <Slide direction="right" in={showSidebar} mountOnEnter unmountOnExit>
-        <Drawer variant="persistent" anchor="left" open={showSidebar}>
-          <div style={styles.sidebarHeader}>
-            <IconButton onClick={toggleSidebar}>
-              {showSidebar ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </IconButton>
-          </div>
-          <List>
-            <ListItem button component={Link} to="/" style={styles.listItem}>
-              <Login />
-              <ListItemText primary="Login" />
-            </ListItem>
-            <ListItem
-              button
-              component={Link}
-              to="/products"
-              style={styles.listItem}
-            >
-              <FastfoodIcon />
-              <ListItemText primary="Products" />
-            </ListItem>
-            {userInfo.role == "employee" && (
+      <div>
+        <IconButton onClick={toggleSidebar}>
+          {showSidebar ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+        <Slide direction="right" in={showSidebar} mountOnEnter unmountOnExit>
+          <Drawer variant="persistent" anchor="left" open={showSidebar}>
+            <div style={styles.sidebarHeader}>
+              <IconButton onClick={toggleSidebar}>
+                {showSidebar ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              </IconButton>
+            </div>
+            <List>
+              <ListItem button component={Link} to="/" style={styles.listItem}>
+                <Login />
+                <ListItemText primary="Login" style={styles.listItemText} />
+              </ListItem>
               <ListItem
-                button
-                component={Link}
-                to="/products/add"
-                style={styles.listItem}
+                  button
+                  component={Link}
+                  to="/products"
+                  style={styles.listItem}
               >
-                <AddBoxIcon />
-                <ListItemText primary="Add Product" />
+                <FastfoodIcon />
+                <ListItemText
+                    primary="Products"
+                    style={styles.listItemText}
+                />
               </ListItem>
-            )}
-            {userInfo.role == "employee" && (
-              <ListItem button component={Link} to="/orders">
-                <StorefrontIcon />
-                <ListItemText primary="Orders" />
-              </ListItem>
-            )}
-            {userInfo.role == "user" && (
-              <ListItem button component={Link} to="/shop">
-                <ShoppingCartIcon />
-                <ListItemText primary="Shopping Cart" />
-              </ListItem>
-            )}
-          </List>
-        </Drawer>
-      </Slide>
-    </div>
+              {userInfo.role === "employee" && (
+                  <ListItem
+                      button
+                      component={Link}
+                      to="/products/add"
+                      style={styles.listItem}
+                  >
+                    <AddBoxIcon />
+                    <ListItemText primary="Add Product" style={styles.listItemText} />
+                  </ListItem>
+              )}
+              {userInfo.role === "employee" && (
+                  <ListItem button component={Link} to="/orders" style={styles.listItem}>
+                    <StorefrontIcon />
+                    <ListItemText primary="Orders" style={styles.listItemText} />
+                  </ListItem>
+              )}
+              {userInfo.role === "user" && (
+                  <ListItem button component={Link} to="/shop" style={styles.listItem}>
+                    <ShoppingCartIcon />
+                    <ListItemText primary="Shopping Cart" style={styles.listItemText} />
+                  </ListItem>
+              )}
+            </List>
+          </Drawer>
+        </Slide>
+      </div>
   );
 }
 

@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import React, {useState} from 'react';
 import Typography from '@mui/material/Typography';
 import {
@@ -33,7 +32,7 @@ const OrderConfirmationStep = ({personalInfo, paymentInfo}) => {
                 quantity: item.quantityInCart,
                 name: item.name,
                 price: parseFloat(item.price),
-                imageUrl:item.imageUrl
+                imageUrl: item.imageUrl
             };
         });
     };
@@ -69,11 +68,11 @@ const OrderConfirmationStep = ({personalInfo, paymentInfo}) => {
     };
 
     return (
-        <Container maxWidth="md" sx={{ textAlign: 'center', mt: 5 }}>
+        <Container maxWidth="md" sx={{textAlign: 'center', mt: 5}}>
             <Typography variant="h6">Order Confirmation</Typography>
             <Grid container spacing={4} justifyContent="center">
                 <Grid item xs={12}>
-                    <Paper sx={{ bgcolor: '#f0f0f0', p: 3 }}>
+                    <Paper sx={{bgcolor: '#f0f0f0', p: 3}}>
                         <TableContainer>
                             <Table>
                                 <TableHead>
@@ -84,10 +83,11 @@ const OrderConfirmationStep = ({personalInfo, paymentInfo}) => {
                                 <TableBody>
                                     <TableRow>
                                         <TableCell>
-                                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                            <Box sx={{display: 'flex', flexDirection: 'column'}}>
                                                 {Object.keys(personalInfo).map((infoKey) => (
-                                                    <Box key={infoKey} sx={{ mb: 1 }}>
-                                                        <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{infoKey}:</Typography>
+                                                    <Box key={infoKey} sx={{mb: 1}}>
+                                                        <Typography variant="body1"
+                                                                    sx={{fontWeight: 'bold'}}>{infoKey}:</Typography>
                                                         <Typography variant="body2">{personalInfo[infoKey]}</Typography>
                                                     </Box>
                                                 ))}
@@ -100,7 +100,7 @@ const OrderConfirmationStep = ({personalInfo, paymentInfo}) => {
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
-                    <Paper sx={{ bgcolor: '#e0e0e0', p: 3 }}>
+                    <Paper sx={{bgcolor: '#e0e0e0', p: 3}}>
                         <TableContainer>
                             <Table>
                                 <TableHead>
@@ -111,11 +111,13 @@ const OrderConfirmationStep = ({personalInfo, paymentInfo}) => {
                                 <TableBody>
                                     <TableRow>
                                         <TableCell>
-                                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                            <Box sx={{display: 'flex', flexDirection: 'column'}}>
                                                 {Object.keys(paymentInfo).map((paymentKey) => (
-                                                    <Box key={paymentKey} sx={{ mb: 1 }}>
-                                                        <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{paymentKey}:</Typography>
-                                                        <Typography variant="body2">{paymentInfo[paymentKey]}</Typography>
+                                                    <Box key={paymentKey} sx={{mb: 1}}>
+                                                        <Typography variant="body1"
+                                                                    sx={{fontWeight: 'bold'}}>{paymentKey}:</Typography>
+                                                        <Typography
+                                                            variant="body2">{paymentInfo[paymentKey]}</Typography>
                                                     </Box>
                                                 ))}
                                             </Box>
@@ -147,209 +149,22 @@ const OrderConfirmationStep = ({personalInfo, paymentInfo}) => {
                 {/*</Grid>*/}
                 {transformedItems.map((item) => (
                     <Grid item xs={12} key={item.productId}>
-                        <Paper sx={{ p: 2, mt: 2 }}>
-                            <ProductRow item={item} />
+                        <Paper sx={{p: 2, mt: 2}}>
+                            <ProductRow item={item}/>
                         </Paper>
                     </Grid>
                 ))}
                 <Grid item xs={12}>
-                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                        <Button variant="contained" color="primary" onClick={handleConfirmOrder}>
-                            Confirm Order
-                        </Button>
+                    <motion.div whileHover={{scale: 1.1}} whileTap={{scale: 0.9}}>
+                        <Link to={"/products"}>
+                            <Button variant="contained" color="primary" onClick={handleConfirmOrder}>
+                                Confirm Order
+                            </Button>
+                        </Link>
                     </motion.div>
                 </Grid>
             </Grid>
         </Container>
     );
-=======
-import React, { useEffect, useState } from "react";
-import Typography from "@mui/material/Typography";
-import {
-  Grid,
-  Paper,
-  Button,
-  Container,
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@mui/material";
-import { motion } from "framer-motion";
-import { addOrder } from "../../store/slices/orderSlice.js";
-import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
-
-const OrderConfirmationStep = ({ personalInfo, paymentInfo, onConfirm }) => {
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const dispatch = useDispatch();
-  const [orderData, setOrderData] = useState({});
-  const location = useLocation();
-  const items = location.state.items;
-  const tolatAmount = location.state.amountToPay;
-  const transformItemsForBackend = (items) => {
-    return items.map((item) => {
-      // console.log(item)
-      return {
-        productId: item.number,
-        quantity: item.quantityInCart,
-        name: item.name,
-        price: parseFloat(item.price),
-      };
-    });
-  };
-  const transformedItems = transformItemsForBackend(items);
-
-  const handleConfirmOrder = async () => {
-    try {
-      await dispatch(
-        addOrder({
-          customerName: personalInfo.name,
-          email: personalInfo.email,
-          phone: personalInfo.phone,
-          street: personalInfo.street,
-          city: personalInfo.city,
-          zip: personalInfo.zip,
-          creditCardType: "VISA",
-          creditCardNumber: paymentInfo.cardNumber,
-          creditCardExpiry: paymentInfo.expirationDate,
-          validationCode: paymentInfo.validationCode,
-          status: "PLACED",
-          items: transformedItems,
-        })
-      );
-
-      setShowConfirmation(true);
-      setTimeout(() => {
-        setShowConfirmation(false);
-      }, 2000);
-    } catch (error) {
-      console.error("Error adding order:", error);
-      // Handle error state or show error message
-    }
-  };
-  return (
-    <Container
-      maxWidth="sm"
-      style={{
-        textAlign: "center",
-        marginTop: "50px",
-        backgroundColor: "#f0f0f0",
-        padding: "20px",
-      }}
-    >
-      <Typography variant="h6">Order Confirmation</Typography>
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12}>
-          <Paper style={{ backgroundColor: "#e0e0e0", padding: "20px" }}>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell align={"center"} variant={"head"}>
-                      User Information
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <Typography variant="body1">Name:</Typography>
-                      <Typography variant="body2">
-                        {personalInfo.name}
-                      </Typography>
-                      <Typography variant="body1">Email:</Typography>
-                      <Typography variant="body2">
-                        {personalInfo.email}
-                      </Typography>
-                      <Typography variant="body1">Phone:</Typography>
-                      <Typography variant="body2">
-                        {personalInfo.phone}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body1">City:</Typography>
-                      <Typography variant="body2">
-                        {personalInfo.city}
-                      </Typography>
-                      <Typography variant="body1">Stree:</Typography>
-                      <Typography variant="body2">
-                        {personalInfo.street}
-                      </Typography>
-                      <Typography variant="body1">ZIP:</Typography>
-                      <Typography variant="body2">
-                        {personalInfo.zip}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper style={{ backgroundColor: "#d0d0d0", padding: "20px" }}>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Payment Information</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <Typography variant="body1">Card Number:</Typography>
-                      <Typography variant="body2">
-                        {paymentInfo.cardNumber}
-                      </Typography>
-                      <Typography variant="body1">Expiry Date:</Typography>
-                      <Typography variant="body2">
-                        {paymentInfo.expirationDate}
-                      </Typography>
-                      <Typography variant="body1">Validation Code:</Typography>
-                      <Typography variant="body2">
-                        {paymentInfo.validationCode}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleConfirmOrder}
-            >
-              Confirm Order
-            </Button>
-          </motion.div>
-          {showConfirmation && (
-            <div
-              style={{
-                marginTop: "10px",
-                backgroundColor: "green",
-                color: "white",
-                padding: "10px",
-                borderRadius: "5px",
-              }}
-            >
-              <Typography variant="body1">
-                Your order has been added...
-              </Typography>
-            </div>
-          )}
-        </Grid>
-      </Grid>
-    </Container>
-  );
->>>>>>> Stashed changes
 };
-
 export default OrderConfirmationStep;

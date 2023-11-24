@@ -73,7 +73,7 @@ const OrderTable = ({ showSideBar }) => {
                                     </IconButton>
                                 </TableCell>
                                 <TableCell>{order.id}</TableCell>
-                                <TableCell>{order.timestamp}</TableCell>
+                                <TableCell>     {new Date(order.timestamp).toLocaleDateString('en-US')}</TableCell>
                                 <TableCell>{`${order.street}, ${order.city}, ${order.zip}`}</TableCell>
                                 <TableCell>{order.status}</TableCell>
                                 <TableCell>{order.customerName}</TableCell>

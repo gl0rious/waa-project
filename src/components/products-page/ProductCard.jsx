@@ -12,11 +12,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch } from "react-redux";
 import { removeProduct } from "../../store/slices/productSlice";
 import { addCartItem } from "../../store/slices/cartItemSlice.js";
-<<<<<<< Updated upstream
 import {API} from "../../API.js";
-=======
+
 import Skeleton from "@mui/material/Skeleton";
->>>>>>> Stashed changes
 
 const ProductCard = (product) => {
   const userInfo = useSelector((state) => state.user);

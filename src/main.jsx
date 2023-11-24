@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import App from "./App.jsx";
 import "./index.css";
 import store from "./store/store.js";
-import { SnackbarProvider } from "notistack";
+import {SnackbarProvider} from "notistack";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>

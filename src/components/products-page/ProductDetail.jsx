@@ -19,6 +19,8 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CardMedia from "@mui/material/CardMedia";
 import { fetchProducts } from "../../store/slices/productSlice";
+import {API} from "../../API.js";
+import {addReview, fetchReviews} from "../../store/slices/reviewSlice.js";
 const ProductDetail = () => {
   const { number } = useParams();
   const userInfo = useSelector(state => state.user)
@@ -66,29 +68,33 @@ const ProductDetail = () => {
       comment: "Good product, but could be improved.",
     },
   ]);
-
+  const reviewstest = useSelector((state) => state.reviews); // Fetching orders from Redux store
+  console.log(reviewstest)
+  const user = useSelector(state => state.user)
   const [userRating, setUserRating] = useState(0);
   const [comment, setComment] = useState("");
 
   const handleRatingChange = (event, newValue) => {
     setUserRating(newValue);
   };
-
+  useEffect(() => {
+    dispatch(fetchReviews(number));
+  }, [dispatch]);
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
 
   const handleSubmit = () => {
     const newReview = {
-      id: reviews.length + 1,
-      user: "New User",
+      username: user.username,
+      productId: number,
       rating: userRating,
       comment: comment,
     };
-
     setReviews([...reviews, newReview]);
+    dispatch(addReview(newReview));
     setUserRating(0);
-    setComment("");
+    setComment('');
   };
 
   return (
@@ -177,7 +183,7 @@ const ProductDetail = () => {
           <Card>
             <CardMedia
               component="img"
-              image={product.imageUrl || "http://via.placeholder.com/640x360"}
+              image={`${API}/${product.imageUrl}` || "http://via.placeholder.com/640x360"}
             />
           </Card>
         </Grid>
@@ -187,8 +193,11 @@ const ProductDetail = () => {
         Product Reviews:
       </Typography>
 
-      {reviews.map((review) => (
+      {reviewstest.reviews.map((review) => (
         <Card key={review.number} style={{ marginBottom: "10px" }}>
+          <Typography variant="subtitle1" style={{color: 'gray', marginBottom: '8px'}}>
+            <strong>{review.username}</strong> | {new Date(review.timestamp).toLocaleDateString('en-US')}
+          </Typography>
           <CardContent>
             <Typography variant="body1">
               <Rating name="user-rating" value={review.rating} readOnly />

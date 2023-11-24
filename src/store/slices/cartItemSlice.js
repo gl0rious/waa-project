@@ -1,19 +1,8 @@
-import {nanoid} from "nanoid";
-import {faker} from "@faker-js/faker";
 import {createSlice} from "@reduxjs/toolkit";
 
-const initialCartItemsList = Array.from(Array(2)).map(() => {
-    return {
-        id: nanoid(),
-        name: faker.commerce.product(),
-        price: faker.commerce.price(),
-        quantityInCart: 1,
-        imageUrl: faker.image.url(),
-    };
-});
 export const cartItemSlice = createSlice({
     name: "cartItem",
-    initialState: initialCartItemsList,
+    initialState: [],
     reducers:
         {
             addCartItem: (state, action) => {

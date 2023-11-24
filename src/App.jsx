@@ -1,10 +1,5 @@
-<<<<<<< Updated upstream
 import "./App.scss";
-import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
-=======
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
->>>>>>> Stashed changes
 import ProductList from "./components/products-page/ProductList.jsx";
 import AddProductForm from "./pages/product/AddProductForm.jsx";
 import ProductDetail from "./components/products-page/ProductDetail.jsx";
@@ -24,7 +19,7 @@ function App() {
                 <header className={`header ${showSideBar ? "shifted-content" : ""}`}>
                     <h1>My Store</h1>
                 </header>
-                <Sidebar onShow={setShowSideBar}/>
+                <Sidebar className="sidebar" onShow={setShowSideBar}/>
 
                 <div  className={`main-content ${showSideBar ? "shifted-content" : ""}`}>
                     <div className={`content ${showSideBar ? "shifted-content" : ""}`}>
