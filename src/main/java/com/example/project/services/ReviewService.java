@@ -27,7 +27,6 @@ public class ReviewService {
         repo.delete(review);
     }
 
-    // update review
     public Review update(Review review) {
         review.setTimestamp(LocalDateTime.now());
         return repo.save(review);

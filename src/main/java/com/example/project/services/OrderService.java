@@ -34,10 +34,6 @@ public class OrderService {
         order.setTimestamp(LocalDateTime.now());
         return OrderAdapter.toDTO(orderRepository.save(order));
     }
-//    public OrderDTO save(OrderDTO orderDTO) {
-//        Order order = OrderAdapter.fromDTO(orderDTO);
-//        return OrderAdapter.toDTO(orderRepository.save(order));
-//    }
 
     public Order getOrderById(String orderId) {
         return orderRepository.findById(orderId).get();

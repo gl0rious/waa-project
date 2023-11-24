@@ -24,7 +24,6 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    // impliment exists method
     public boolean exists(String productNumber) {
         return productRepository.existsById(productNumber);
     }
@@ -39,7 +38,6 @@ public class ProductService {
     }
 
     public Product updateProduct(String productNumber, Product product) {
-        // Implement validation logic if needed
         productRepository.findById(productNumber)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + productNumber));
         product.setNumber(productNumber);
@@ -47,7 +45,6 @@ public class ProductService {
     }
 
     public void removeProduct(String productNumber) {
-        // Implement validation logic if needed
         Product product = productRepository.findById(productNumber)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + productNumber));
         productRepository.delete(product);
@@ -63,7 +60,6 @@ public class ProductService {
     }
 
     public Order placeOrder(Order order) {
-        // Implement validation logic if needed
         return orderRepository.save(order);
     }
 

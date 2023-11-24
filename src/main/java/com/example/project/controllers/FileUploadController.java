@@ -23,7 +23,7 @@ import java.util.Objects;
 @CrossOrigin(origins = "*")
 @RequestMapping("/uploadFile")
 public class FileUploadController {
-    private ServletContext servletContext; // Inject ServletContext
+    private ServletContext servletContext;
 
     @Autowired
     private FileStorageService fileStorageService;
@@ -36,7 +36,6 @@ public class FileUploadController {
                 .path(fileName)
                 .toUriString();
 
-        // Extract just the file name without the path
         String[] parts = fileName.split("/");
         String imageName = parts[parts.length - 1];
 
@@ -55,8 +54,9 @@ public class FileUploadController {
                     byte[] byteArray = Files.readAllBytes(urlResource.getFile().toPath());
                     ByteArrayResource byteArrayResource = new ByteArrayResource(byteArray);
                     return ResponseEntity.ok()
-                            .contentType(MediaType.IMAGE_JPEG) // or MediaType.IMAGE_PNG, MediaType.IMAGE_GIF
-                            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                            .contentType(MediaType.IMAGE_JPEG)
+                            .header(HttpHeaders.CONTENT_DISPOSITION,
+                                    "inline; filename=\"" + resource.getFilename() + "\"")
                             .body(byteArrayResource);
                 }
             } catch (IOException ex) {

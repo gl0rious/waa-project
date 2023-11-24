@@ -17,7 +17,6 @@ public class Order {
     @Id
     private String id;
     private List<OrderItem> items;
-    // DATE
     private String customerName;
     private String email;
     private String phone;
