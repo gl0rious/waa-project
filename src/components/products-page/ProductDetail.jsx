@@ -19,18 +19,15 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CardMedia from "@mui/material/CardMedia";
 import { fetchProducts } from "../../store/slices/productSlice";
-import {API} from "../../API.js";
-import {addReview, fetchReviews} from "../../store/slices/reviewSlice.js";
+import { API } from "../../API.js";
+import { addReview, fetchReviews } from "../../store/slices/reviewSlice.js";
 const ProductDetail = () => {
   const { number } = useParams();
-  const userInfo = useSelector(state => state.user)
+  const userInfo = useSelector((state) => state.user);
   const product = useSelector((state) => {
-    // console.log("ProductDetail", number);
-    // console.log("ProductDetail", state.products.products);
     const p = state.products.products.find(
       (product) => product.number === number
     );
-    // console.log("ProductDetail p", p);
     return (
       p || {
         number: "",
@@ -44,7 +41,6 @@ const ProductDetail = () => {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    // console.log("ProductDetail useEffect");
     dispatch(fetchProducts());
   }, [dispatch]);
 
@@ -68,9 +64,9 @@ const ProductDetail = () => {
       comment: "Good product, but could be improved.",
     },
   ]);
-  const reviewstest = useSelector((state) => state.reviews); // Fetching orders from Redux store
-  console.log(reviewstest)
-  const user = useSelector(state => state.user)
+  const reviewstest = useSelector((state) => state.reviews);
+  console.log(reviewstest);
+  const user = useSelector((state) => state.user);
   const [userRating, setUserRating] = useState(0);
   const [comment, setComment] = useState("");
 
@@ -94,7 +90,7 @@ const ProductDetail = () => {
     setReviews([...reviews, newReview]);
     dispatch(addReview(newReview));
     setUserRating(0);
-    setComment('');
+    setComment("");
   };
 
   return (
@@ -183,7 +179,10 @@ const ProductDetail = () => {
           <Card>
             <CardMedia
               component="img"
-              image={`${API}/${product.imageUrl}` || "http://via.placeholder.com/640x360"}
+              image={
+                `${API}/${product.imageUrl}` ||
+                "http://via.placeholder.com/640x360"
+              }
             />
           </Card>
         </Grid>
@@ -195,8 +194,12 @@ const ProductDetail = () => {
 
       {reviewstest.reviews.map((review) => (
         <Card key={review.number} style={{ marginBottom: "10px" }}>
-          <Typography variant="subtitle1" style={{color: 'gray', marginBottom: '8px'}}>
-            <strong>{review.username}</strong> | {new Date(review.timestamp).toLocaleDateString('en-US')}
+          <Typography
+            variant="subtitle1"
+            style={{ color: "gray", marginBottom: "8px" }}
+          >
+            <strong>{review.username}</strong> |{" "}
+            {new Date(review.timestamp).toLocaleDateString("en-US")}
           </Typography>
           <CardContent>
             <Typography variant="body1">
@@ -207,35 +210,34 @@ const ProductDetail = () => {
         </Card>
       ))}
       {userInfo.role == "user" && (
-
-          <Box mt={4}>
-        <Typography variant="h6" gutterBottom>
-          Add Your Review:
-        </Typography>
-        <Rating
-          name="user-rating"
-          value={userRating}
-          onChange={handleRatingChange}
-        />
-        <TextField
-          label="Comment"
-          variant="outlined"
-          fullWidth
-          multiline
-          rows={3}
-          value={comment}
-          onChange={handleCommentChange}
-          style={{ marginTop: "10px" }}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-          style={{ marginTop: "10px" }}
-        >
-          Submit Review
-        </Button>
-      </Box>
+        <Box mt={4}>
+          <Typography variant="h6" gutterBottom>
+            Add Your Review:
+          </Typography>
+          <Rating
+            name="user-rating"
+            value={userRating}
+            onChange={handleRatingChange}
+          />
+          <TextField
+            label="Comment"
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={3}
+            value={comment}
+            onChange={handleCommentChange}
+            style={{ marginTop: "10px" }}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            style={{ marginTop: "10px" }}
+          >
+            Submit Review
+          </Button>
+        </Box>
       )}
     </Container>
   );

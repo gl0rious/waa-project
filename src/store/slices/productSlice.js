@@ -18,15 +18,11 @@ export const addProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async (product, thunkAPI) => {
-    // try {
     const res = await axios.put(
       `http://localhost:8080/api/products/${product.number}`,
       product
     );
     return res.data;
-    // } catch (error) {
-    //   return thunkAPI.rejectWithValue({ message: "Failed to update product" });
-    // }
   }
 );
 export const removeProduct = createAsyncThunk(

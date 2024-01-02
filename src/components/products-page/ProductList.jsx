@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import { fetchProducts } from "../../store/slices/productSlice";
 
 const ProductList = () => {
-  // const isLoading = useSelector((state) => state.products.isLoading);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
@@ -19,7 +18,7 @@ const ProductList = () => {
   const products = useSelector((state) => {
     return state.products.products;
   });
-  console.log(products)
+  console.log(products);
   const userInfo = useSelector((state) => state.user);
   return (
     <Container maxWidth="lg">

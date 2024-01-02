@@ -63,7 +63,6 @@ const OrderConfirmationStep = ({personalInfo, paymentInfo}) => {
             }, 2000);
         } catch (error) {
             console.error('Error adding order:', error);
-            // Handle error state or show error message
         }
     };
 

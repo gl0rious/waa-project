@@ -3,13 +3,12 @@ import { useDispatch } from "react-redux";
 import { Button, Container, Grid, TextField } from "@mui/material";
 import { addProduct } from "../../store/slices/productSlice";
 import { useNavigate } from "react-router-dom";
-import {API} from "../../API.js";
+import { API } from "../../API.js";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
-  // const products = useSelector((state) => state.products.products);
   const navigate = useNavigate();
-  console.log(API)
+  console.log(API);
   const [product, setProduct] = useState({
     number: "",
     name: "",
@@ -25,14 +24,12 @@ const AddProductForm = () => {
 
   const handleAddProduct = async () => {
     const formData = new FormData();
-    formData.append("file", product.image); // Assuming "file" is the key for the file in the form data
-
+    formData.append("file", product.image);
     try {
-      console.log(formData)
-      const response = await fetch('http://localhost:8080/api/uploadFile', {
-        method: 'POST',
+      console.log(formData);
+      const response = await fetch("http://localhost:8080/api/uploadFile", {
+        method: "POST",
         body: formData,
-        // Additional headers if necessary, like authorization headers
       });
 
       if (response.ok) {
@@ -41,12 +38,10 @@ const AddProductForm = () => {
         dispatch(addProduct(updatedProduct));
         navigate("/products");
       } else {
-        // Handle error scenario
-        console.error('File upload failed');
+        console.error("File upload failed");
       }
     } catch (error) {
-      // Handle fetch or other errors
-      console.error('Error uploading file:', error);
+      console.error("Error uploading file:", error);
     }
   };
 
@@ -107,12 +102,12 @@ const AddProductForm = () => {
         </Grid>
         <Grid item xs={12}>
           <input
-              name="image"
-              accept="image/*"
-              id="contained-button-file"
-              type="file"
-              style={{ display: "none" }}
-              onChange={handleImageChange}
+            name="image"
+            accept="image/*"
+            id="contained-button-file"
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleImageChange}
           />
           <label htmlFor="contained-button-file">
             <Button variant="contained" component="span">
